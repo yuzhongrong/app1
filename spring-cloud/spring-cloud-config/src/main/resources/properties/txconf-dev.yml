@@ -1,0 +1,4 @@
+#分布式事务配置
+tm:
+  manager:
+    url: http://${tx-host}:8010/tx/manager/

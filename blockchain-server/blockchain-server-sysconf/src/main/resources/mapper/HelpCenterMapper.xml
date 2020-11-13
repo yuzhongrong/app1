@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.HelpCenterMapper">
+    
+    <resultMap type="com.blockchain.server.sysconf.entity.HelpCenter" id="HelpCenterResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="url"    column="url"    />
+        <result property="rank"    column="rank"    />
+        <result property="userLocal"    column="user_local"    />
+        <result property="showStatus"    column="show_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <select id="selectHelpCenterForApp" resultMap="HelpCenterResult">
+        select id, title, url
+        from conf_help_center
+        where show_status = #{showStatus}
+        and user_local = #{userLocal}
+        ORDER BY `rank` DESC,create_time DESC
+    </select>
+
+    <select id="selectHelpCenterForPc" resultMap="HelpCenterResult">
+        select id, title, url
+        from conf_help_center
+        where show_status = #{showStatus}
+        <if test="title != null">
+            AND `title` like "%"#{title}"%"
+        </if>
+        and user_local = #{userLocal}
+        ORDER BY `rank` DESC,create_time DESC
+    </select>
+
+    <select id="selectContentById" resultType="String">
+        select content
+        from conf_help_center
+        where id = #{id}
+    </select>
+
+</mapper>

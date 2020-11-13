@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.AppealHandleLogMapper">
+
+    <sql id="table">otc_appeal_handle_log</sql>
+
+    <resultMap id="AppealHandleLogMap" type="com.blockchain.server.otc.entity.AppealHandleLog">
+        <id property="id" column="id"/>
+        <result property="orderNubmer" column="order_nubmer"/>
+        <result property="afterStatus" column="after_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="sysUserId" column="sys_user_id"/>
+        <result property="ipAddress" column="ip_address"/>
+    </resultMap>
+
+    <resultMap id="AppealHandleLogDTOMap" type="com.blockchain.server.otc.dto.appeal.AppealHandleLogDTO">
+        <result property="afterStatus" column="after_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <select id="selectByOrderNumber" resultMap="AppealHandleLogDTOMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE order_number = #{orderNumber}
+    </select>
+
+</mapper>

@@ -1,0 +1,18 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: dapp-config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/properties/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-host}:8001/eureka/
+  instance:
+    prefer-ip-address: true

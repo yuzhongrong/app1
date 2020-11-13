@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.VersionMapper">
+
+    <sql id="tableName">conf_version</sql>
+
+    <resultMap type="com.blockchain.server.sysconf.entity.Version" id="VersionResult">
+        <id     property="id"       column="id"      />
+        <result property="version"      column="version"/>
+        <result property="appUrl"    column="app_url"   />
+        <result property="remark"   column="remark"  />
+        <result property="compel"   column="compel"  />
+        <result property="device"   column="device"  />
+        <result property="createTime"   column="create_time"  />
+        <result property="modifyTime"   column="modify_time"  />
+    </resultMap>
+
+
+
+    <select id="findNewVersion" parameterType="java.lang.String" resultMap="VersionResult">
+        SELECT * FROM <include refid="tableName"/> WHERE device=#{device} ORDER BY create_time DESC LIMIT 1
+    </select>
+
+
+
+    <select id="listAll" parameterType="java.lang.String" resultMap="VersionResult">
+        SELECT * FROM <include refid="tableName"/>
+        <where>
+            <if test="device != null">
+                device=#{device}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

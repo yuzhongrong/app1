@@ -1,0 +1,45 @@
+#注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-host}:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+spring:
+  cloud:
+    #配置中心
+    config:
+      discovery:
+        service-id: dapp-config-server
+        enabled: true
+      profile: dev
+      name: springconf,springcloudconf,redisconf,txconf,xssconf,ipconf,fileconf,dbconf
+  application:
+    name: dapp-otc-server
+
+server:
+  port: 8701
+  servlet:
+    context-path: /otc
+##注册中心
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eureka:8001/eureka/
+#  instance:
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#    hostname: ${spring.cloud.client.ip-address}
+#spring:
+#  cloud:
+#    #配置中心
+#    config:
+#      discovery:
+#        service-id: dapp-config-server
+#        enabled: true
+#      profile: dev
+#      name: springconf,springcloudconf,redisconf,dbconf,txconf,xssconf,ipconf,fileconf
+#  application:
+#    name: dapp-otc-server

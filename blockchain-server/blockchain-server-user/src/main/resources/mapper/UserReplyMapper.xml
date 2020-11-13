@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.user.mapper.UserReplyMapper">
+
+    <resultMap id="UserReplyMap" type="com.blockchain.server.user.dto.UserReplyDTO">
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="suggestion" column="suggestion"/>
+        <result property="usTime" column="us_time"/>
+    </resultMap>
+
+    <select id="listMine" resultMap="UserReplyMap">
+        SELECT ur.content, ur.create_time, us.text_suggestion AS suggestion, us.create_time AS us_time
+        FROM dapp_u_user_reply ur LEFT JOIN dapp_u_user_suggestions us ON ur.suggestion_id = us.id
+        WHERE ur.user_open_id = #{userOpenId}
+        ORDER BY ur.create_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronWalletPrepaymentMapper">
+
+    <sql id="tableName">dapp_tron_wallet_prepayment</sql>
+    <select id="findByAppIdAndTradeNoLimit" resultType="java.lang.Integer">
+        SELECT count(0) FROM
+        <include refid="tableName"/>
+        WHERE
+          app_id = #{appId}
+        AND
+          trade_no = #{tradeNo}
+        LIMIT 1;
+    </select>
+</mapper>

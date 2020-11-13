@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.AppealDetailMapper">
+    <resultMap id="AppealDetailMap" type="com.blockchain.server.otc.entity.AppealDetail">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="appealRole" column="appeal_role"/>
+        <result property="remark" column="remark"/>
+        <result property="appealId" column="appeal_id"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+</mapper>

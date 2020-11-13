@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.SystemImageMapper">
+    <sql id="tableName">conf_system_image</sql>
+
+    <select id="selectByTypeAndStatus" resultType="com.blockchain.server.sysconf.entity.SystemImage">
+        select * from
+        <include refid="tableName"/>
+        <where>
+            <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="type != null and type != ''">and `type` = #{type}</if>
+            <if test="group != null and group != ''">and `group` = #{group}</if>
+            <if test="language != null and language != ''">and `language` = #{language}</if>
+
+        </where>
+        ORDER BY `rank` DESC,create_time DESC
+    </select>
+
+</mapper>

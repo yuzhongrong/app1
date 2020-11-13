@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eos.mapper.WalletInMapper">
+	<resultMap id="walletInMap" type="com.blockchain.server.eos.dto.WalletInDTO">
+		<result property="id" column="id"/>
+		<result property="accountName" column="account_name"/>
+		<result property="tokenName" column="token_name"/>
+		<result property="tokenSymbol" column="token_symbol"/>
+		<result property="remark" column="remark"/>
+		<result property="status" column="status"/>
+		<result property="blockNumber" column="block_number"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_eos_wallet_in</sql>
+	
+	<select id="listWalletInByAccountName" parameterType="java.lang.String" resultMap="walletInMap">
+		select id, account_name, token_name, token_symbol, remark, status, block_number
+		from <include refid="tableName"/>
+		where account_name = #{to}
+	</select>
+
+	<select id="selectWalletInAccount" resultMap="walletInMap">
+		select id, account_name, token_name, token_symbol, remark, status, block_number
+		from <include refid="tableName"/>
+		where token_name = #{tokenName}
+		and status = #{status}
+	</select>
+
+	<update id="updateWalletInBlockNumber">
+		update
+		<include refid="tableName"/>
+		set
+		block_number = #{blockNum}
+		where account_name = #{accountName}
+	</update>
+
+</mapper>

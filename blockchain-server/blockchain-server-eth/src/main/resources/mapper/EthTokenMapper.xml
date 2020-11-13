@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eth.mapper.EthTokenMapper">
+    <resultMap id="EthTokenMap" type="com.blockchain.server.eth.entity.EthToken">
+        <result property="descr" column="descr"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="tokenDecimals" column="token_decimals"/>
+        <result property="totalSupply" column="total_supply"/>
+        <result property="totalCirculation" column="total_circulation"/>
+        <result property="tokenAddr" column="token_addr"/>
+    </resultMap>
+    <sql id="tableName">dapp_eth_token</sql>
+
+    <select id="selectAllTokenAddr" resultType="String">
+        SELECT token_addr from
+        <include refid="tableName"/>
+    </select>
+
+</mapper>

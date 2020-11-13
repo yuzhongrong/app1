@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.imjg.mapper.ImjgMessageMapper">
+    <sql id="tableName">imjg_message</sql>
+
+    <resultMap id="mlfMessage" type="com.blockchain.server.imjg.entity.ImjgMessage">
+        <id column="id" property="id"/>
+
+
+    </resultMap>
+
+<!--    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and b.id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('type') and type>0">
+                and a.type = #{type}
+            </if>
+            <if test="_parameter.containsKey('tenantId') and tenantId>0">
+                and a.tenant_id = #{tenantId}
+            </if>
+            <if test="_parameter.containsKey('status') and status>0">
+                and b.status = #{status}
+            </if>
+            <if test="_parameter.containsKey('courseIds') and courseIds != null and courseIds != ''">
+                and a.course_id in (${courseIds})
+            </if>
+            <if test="id>0">
+                and b.id =#{id}
+            </if>
+            <if test="_parameter.containsKey('theme') and theme != null and theme != ''">
+                and b.theme like concat(#{theme},'%')
+            </if>
+            <if test="_parameter.containsKey('speakerName') and speakerName != null and speakerName != ''">
+                and b.speaker_names like concat(#{speakerName},'%')
+            </if>
+            <if test="1==1">
+                and b.status != 5
+            </if>
+        </where>
+    </sql>-->
+
+    <!--<select id="list" resultMap="mlfMessage">-->
+        <!--select * from imjg_message-->
+       <!--&lt;!&ndash; <include refid="dynamicWhere"/>&ndash;&gt;-->
+        <!--<if test="_parameter.containsKey('order') and order!=null">-->
+            <!--order by ${order}-->
+        <!--</if>-->
+        <!--limit #{start},#{size}-->
+    <!--</select>-->
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"  parameterType="com.blockchain.server.imjg.entity.ImjgMessage">
+        insert into imjg_message(extras,msg_type,text,media_id,media_crc32,duration,format,fsize,width,height,fname)
+        values (#{extras},#{msgType},#{text},#{mediaId},#{mediaCrc32},#{duration},#{format},#{fsize},#{width},#{height},#{fname})
+    </insert>
+
+</mapper>

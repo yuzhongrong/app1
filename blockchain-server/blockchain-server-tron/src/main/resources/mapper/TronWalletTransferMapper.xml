@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronWalletTransferMapper">
+    <resultMap id="walletTransferMap" type="com.blockchain.server.tron.entity.TronWalletTransfer">
+        <result property="id" column="id"/>
+        <result property="hash" column="hash"/>
+        <result property="fromHexAddr" column="from_hex_addr"/>
+        <result property="toHexAddr" column="to_hex_addr"/>
+        <result property="amount" column="amount"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="gasPrice" column="gas_price"/>
+        <result property="gasTokenType" column="gas_token_type"/>
+        <result property="gasTokenName" column="gas_token_name"/>
+        <result property="gasTokenSymbol" column="gas_token_symbol"/>
+        <result property="transferType" column="transfer_type"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="walletTransferDtoMap" type="com.blockchain.server.tron.dto.TronWalletTransferDto">
+        <result property="id" column="id"/>
+        <result property="hash" column="hash"/>
+        <result property="fromHexAddr" column="from_hex_addr"/>
+        <result property="toHexAddr" column="to_hex_addr"/>
+        <result property="amount" column="amount"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="gasPrice" column="gas_price"/>
+        <result property="gasTokenType" column="gas_token_type"/>
+        <result property="gasTokenName" column="gas_token_name"/>
+        <result property="gasTokenSymbol" column="gas_token_symbol"/>
+        <result property="transferType" column="transfer_type"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <sql id="tableName">dapp_tron_wallet_transfer</sql>
+
+    <select id="listWalletTransfer" resultMap="walletTransferDtoMap">
+        SELECT id, hash, from_hex_addr, to_hex_addr, amount, token_addr, token_symbol, gas_price, gas_token_type,
+        gas_token_name, gas_token_symbol, transfer_type, status, remark, create_time, update_time
+        FROM
+        <include refid="tableName"/>
+        WHERE ( from_hex_addr = #{walletHexAddr} OR to_hex_addr = #{walletHexAddr} ) and token_addr = #{tokenAddr}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="countByHashAndTransferType" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from
+        <include refid="tableName"/>
+        where hash = #{hash} and transfer_type = #{transferType}
+    </select>
+
+    <select id="findByHashAndTypeTheLime" resultType="java.lang.Integer">
+        SELECT count(0) FROM
+        <include refid="tableName"/>
+        WHERE
+        hash=#{hash}
+        AND
+        transfer_type = #{type}
+        LIMIT 1;
+    </select>
+
+</mapper>

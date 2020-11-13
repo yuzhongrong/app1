@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronWalletCreateMapper">
+    <resultMap id="walletInMap" type="com.blockchain.server.tron.entity.TronWalletCreate">
+        <result property="id" column="id"/>
+        <result property="addr" column="addr"/>
+        <result property="hexAddr" column="hex_addr"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="privateKey" column="private_key"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+    <sql id="tableName">dapp_tron_wallet_create</sql>
+    <sql id="selectFrom">
+        select id, addr, hex_addr, token_symbol, private_key, remark, status
+        from
+        <include refid="tableName"/>
+    </sql>
+
+    <select id="selectByStatus" parameterType="java.lang.Integer"
+            resultType="com.blockchain.server.tron.entity.TronWalletCreate">
+        <include refid="selectFrom"/>
+        where status = #{status}
+        limit 1
+    </select>
+
+</mapper>

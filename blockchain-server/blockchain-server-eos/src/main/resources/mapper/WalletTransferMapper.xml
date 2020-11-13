@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eos.mapper.WalletTransferMapper">
+    <resultMap id="walletTransferMap" type="com.blockchain.server.eos.dto.WalletTransferDTO">
+        <result property="id" column="id"/>
+        <result property="hash" column="hash"/>
+        <result property="fromId" column="from_id"/>
+        <result property="toId" column="to_id"/>
+        <result property="accountName" column="account_name"/>
+        <result property="amount" column="amount"/>
+        <result property="tokenName" column="token_name"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="gasPrice" column="gas_price"/>
+        <result property="gasTokenType" column="gas_token_type"/>
+        <result property="gasTokenName" column="gas_token_name"/>
+        <result property="gasTokenSymbol" column="gas_token_symbol"/>
+        <result property="transferType" column="transfer_type"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="timestamp" column="timestamp"/>
+    </resultMap>
+
+
+    <sql id="tableName">dapp_eos_wallet_transfer</sql>
+
+    <select id="listWalletTransfer" resultMap="walletTransferMap">
+        SELECT hash, from_id, account_name, to_id, amount, token_name, token_symbol, gas_price, gas_token_type, gas_token_name, gas_token_symbol, transfer_type, status, remark, timestamp
+        FROM <include refid="tableName"/>
+        WHERE ( from_id = #{walletId} OR to_id = #{walletId} ) and token_name = #{tokenName}
+        ORDER BY timestamp DESC
+    </select>
+
+    <select id="countByHashAndTransferType" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from
+        <include refid="tableName"/>
+        where hash = #{hash} and transfer_type = #{transferType}
+    </select>
+
+</mapper>

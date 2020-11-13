@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronWalletKeyMapper">
+    <resultMap id="walletInMap" type="com.blockchain.server.tron.entity.TronWalletKey">
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="addr" column="addr"/>
+        <result property="hexAddr" column="hex_addr"/>
+        <result property="privateKey" column="private_key"/>
+        <result property="keystore" column="keystore"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="tableName">dapp_tron_wallet_key</sql>
+
+    <select id="selectAllHexAddrs" resultType="java.lang.String">
+        select
+        hex_addr
+        from
+        <include refid="tableName"/>
+    </select>
+
+</mapper>

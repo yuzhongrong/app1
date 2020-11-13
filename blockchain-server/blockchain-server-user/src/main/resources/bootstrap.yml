@@ -1,0 +1,31 @@
+server:
+  port: 8101
+  servlet:
+    context-path: /user
+#注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-host}:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+spring:
+  cloud:
+    #配置中心
+    config:
+      discovery:
+        service-id: dapp-config-server
+        enabled: true
+      profile: dev
+      name: springconf,springcloudconf,redisconf,dbconf,txconf,xssconf,fileconf,smsconf,emailconf,ipconf,pushconf,baidu,user
+  application:
+    name: dapp-user-server
+
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #最大请求文件的大小
+      max-file-size: 20MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入

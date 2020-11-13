@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.AgreementMapper">
+
+    <sql id="tableName">conf_user_agreement</sql>
+
+    <resultMap type="com.blockchain.server.sysconf.entity.Agreement" id="UserAgreementResult">
+        <id     property="id"       column="id"      />
+        <result property="textContent"      column="text_content"/>
+        <result property="languages"    column="languages"   />
+        <result property="createTime"   column="create_time"  />
+        <result property="modifyTime"   column="modify_time"  />
+    </resultMap>
+
+    <select id="findAgreement" resultMap="UserAgreementResult">
+        SELECT * FROM <include refid="tableName"/> WHERE type=#{type} AND languages=#{languages} ORDER BY create_time DESC LIMIT 1
+    </select>
+
+
+</mapper>

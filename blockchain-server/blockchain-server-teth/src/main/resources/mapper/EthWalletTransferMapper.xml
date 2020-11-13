@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.teth.mapper.EthWalletTransferMapper">
+    <resultMap id="EthWalletTransferMap" type="com.blockchain.server.teth.dto.EthWalletTransferDTO">
+        <result property="toAddr" column="to_addr"/>
+        <result property="amount" column="amount"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="remark" column="remark"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="gasTokenName" column="gas_token_name"/>
+        <result property="gasTokenSymbol" column="gas_token_symbol"/>
+        <result property="transferType" column="transfer_type"/>
+        <result property="gasTokenType" column="gas_token_type"/>
+        <result property="id" column="id"/>
+        <result property="fromAddr" column="from_addr"/>
+        <result property="hash" column="hash"/>
+        <result property="gasPrice" column="gas_price"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <sql id="tableName">dapp_teth_wallet_transfer</sql>
+    <select id="selectTransfer" resultMap="EthWalletTransferMap">
+        SELECT * FROM
+        <include refid="tableName"/>
+        WHERE ( from_addr = #{addr} OR to_addr = #{addr} ) AND token_addr = #{tokenAddr}
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.ConfigMapper">
+
+    <sql id="table">otc_config</sql>
+
+    <resultMap id="ConfigMap" type="com.blockchain.server.otc.entity.Config">
+        <id property="id" column="id"/>
+        <result property="dataKey" column="data_key"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="dataValue" column="data_value"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectByKey" resultMap="ConfigMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE data_key = #{key}
+    </select>
+
+
+</mapper>

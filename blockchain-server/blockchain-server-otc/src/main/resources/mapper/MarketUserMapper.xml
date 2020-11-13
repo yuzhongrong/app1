@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.MarketUserMapper">
+
+    <sql id="table">otc_market_user</sql>
+
+    <resultMap id="MarketUserMap" type="com.blockchain.server.otc.entity.MarketUser">
+        <id property="id" column="id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="MarketUserMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE
+        user_id = #{userId}
+    </select>
+
+</mapper>

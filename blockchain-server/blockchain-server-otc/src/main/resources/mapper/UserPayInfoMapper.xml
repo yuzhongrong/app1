@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.UserPayInfoMapper">
+
+    <sql id="table">otc_user_pay_info</sql>
+
+    <resultMap id="UserPayInfoMap" type="com.blockchain.server.otc.entity.UserPayInfo">
+        <id property="id" column="id"/>
+        <result property="accountInfo" column="account_info"/>
+        <result property="bankNumber" column="bank_number"/>
+        <result property="payType" column="pay_type"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="collectionCodeUrl" column="collection_code_url"/>
+        <result property="bankUserName" column="bank_user_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="bankType" column="bank_type"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <select id="selectByUserIdAndPayType" resultMap="UserPayInfoMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE user_id = #{userId}
+        AND pay_type = #{payType}
+    </select>
+
+    <select id="listByUserId" resultMap="UserPayInfoMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

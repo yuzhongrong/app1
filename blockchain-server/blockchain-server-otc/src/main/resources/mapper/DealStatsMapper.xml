@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.DealStatsMapper">
+
+    <sql id="table">otc_deal_stats</sql>
+
+    <resultMap id="DealStatsMap" type="com.blockchain.server.otc.entity.DealStats">
+        <id property="userId" column="user_id"/>
+        <result property="adTransNum" column="ad_trans_num"/>
+        <result property="orderSellNum" column="order_sell_num"/>
+        <result property="orderBuyNum" column="order_buy_num"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="adMarkNum" column="ad_mark_num"/>
+    </resultMap>
+
+    <update id="updateAdTransNum">
+        UPDATE
+        <include refid="table"/>
+        SET
+        ad_trans_num = ad_trans_num + 1,
+        modify_time = #{modifyTime}
+    </update>
+
+    <update id="updateAdMarkNum">
+        UPDATE
+        <include refid="table"/>
+        SET
+        ad_mark_num = ad_mark_num + 1,
+        modify_time = #{modifyTime}
+    </update>
+
+    <update id="updateOrderSellNum">
+        UPDATE
+        <include refid="table"/>
+        SET
+        order_sell_num = order_sell_num + 1,
+        modify_time = #{modifyTime}
+    </update>
+
+    <update id="updateOrderBuyNum">
+        UPDATE
+        <include refid="table"/>
+        SET
+        order_buy_num = order_buy_num + 1,
+        modify_time = #{modifyTime}
+    </update>
+
+</mapper>

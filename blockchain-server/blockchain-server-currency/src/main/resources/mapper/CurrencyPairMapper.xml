@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.currency.mapper.CurrencyPairMapper">
+    <resultMap id="CurrencyPairMap" type="com.blockchain.server.currency.dto.CurrencyPairDTO">
+        <result property="currencyPair" column="currency_pair"/>
+    </resultMap>
+    <select id="getUsableList" resultMap="CurrencyPairMap">
+        SELECT currency_pair FROM dapp_currency_pair
+        WHERE status = 1
+        ORDER BY order_by ASC
+    </select>
+
+    <select id="getHomeList" resultMap="CurrencyPairMap">
+        SELECT currency_pair FROM dapp_currency_pair
+        WHERE is_home = 1 AND status = 1
+        ORDER BY order_by ASC
+        LIMIT 0,3
+    </select>
+
+    <select id="getQuoteList" resultMap="CurrencyPairMap">
+        SELECT currency_pair FROM dapp_currency_pair
+        WHERE currency_pair LIKE #{currencyName} AND `status` = 1
+        ORDER BY order_by ASC
+    </select>
+
+</mapper>

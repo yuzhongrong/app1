@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.otc.mapper.AdMapper">
+
+    <sql id="table">otc_ad</sql>
+
+    <resultMap id="AdMap" type="com.blockchain.server.otc.entity.Ad">
+        <id property="id" column="id"/>
+        <result property="adPay" column="ad_pay"/>
+        <result property="lastNum" column="last_num"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="adStatus" column="ad_status"/>
+        <result property="minLimit" column="min_limit"/>
+        <result property="userId" column="user_id"/>
+        <result property="adNumber" column="ad_number"/>
+        <result property="adType" column="ad_type"/>
+        <result property="adRemark" column="ad_remark"/>
+        <result property="totalNum" column="total_num"/>
+        <result property="maxLimit" column="max_limit"/>
+        <result property="chargeRatio" column="charge_ratio"/>
+        <result property="price" column="price"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap id="ListAdDTOMap" type="com.blockchain.server.otc.dto.ad.ListAdDTO">
+        <id property="id" column="id"/>
+        <result property="adPay" column="ad_pay"/>
+        <result property="userId" column="user_id"/>
+        <result property="adNumber" column="ad_number"/>
+        <result property="adTransNum" column="ad_trans_num"/>
+        <result property="adMarkNum" column="ad_mark_num"/>
+        <result property="minLimit" column="min_limit"/>
+        <result property="maxLimit" column="max_limit"/>
+        <result property="adType" column="ad_type"/>
+        <result property="price" column="price"/>
+        <result property="adRemark" column="ad_remark"/>
+        <result property="lastNum" column="last_num"/>
+        <result property="totalNum" column="total_num"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="listAd" resultMap="ListAdDTOMap">
+        SELECT od.*,ods.ad_trans_num,ods.ad_mark_num FROM
+        otc_ad od LEFT JOIN otc_deal_stats ods ON od.user_id = ods.user_id
+        <where>
+            od.last_num &gt; 0
+            AND od.last_num * od.price &gt;= min_limit
+            <!--<if test="userId != null and userId != ''">-->
+            <!--AND od.user_id &lt;&gt; #{userId}-->
+            <!--</if>-->
+            <if test="adType != null and adType != ''">
+                AND od.ad_type = #{adType}
+            </if>
+            <if test="coinName != null and coinName != ''">
+                AND od.coin_name = #{coinName}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND od.unit_name = #{unitName}
+            </if>
+            <if test="adStatus != null">
+                AND od.ad_status in
+                <foreach collection="adStatus" item="sitem" open="(" separator="," close=")">
+                    #{sitem}
+                </foreach>
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND DATE_FORMAT(#{beginTime},'%Y-%m-%d') &lt;= DATE_FORMAT(od.create_time,'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND DATE_FORMAT(#{endTime},'%Y-%m-%d') &gt;= DATE_FORMAT(od.create_time,'%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY od.price ${priceSort}, od.create_time ASC
+    </select>
+
+    <select id="listUserAd" resultType="com.blockchain.server.otc.dto.ad.ListUserAdDTO">
+        SELECT * FROM
+        <include refid="table"/>
+        <where>
+            user_id = #{userId}
+            <if test="adType != null and adType != ''">
+                AND ad_type = #{adType}
+            </if>
+            <if test="coinName != null and coinName != ''">
+                AND coin_name = #{coinName}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND unit_name = #{unitName}
+            </if>
+            <if test="adStatus != null and adStatus != ''">
+                AND ad_status = #{adStatus}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND DATE_FORMAT(#{beginTime},'%Y-%m-%d') &lt;= DATE_FORMAT(create_time,'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND DATE_FORMAT(#{endTime},'%Y-%m-%d') &gt;= DATE_FORMAT(create_time,'%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY modify_time DESC
+    </select>
+
+    <select id="selectByIdForUpdate" resultMap="AdMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE id = #{adId}
+        FOR UPDATE
+    </select>
+
+    <select id="listUserAdByStatusAndType" resultMap="AdMap">
+        SELECT * FROM
+        <include refid="table"/>
+        <where>
+            user_id = #{userId}
+            AND ad_type = #{adType}
+            AND coin_name = #{coinName}
+            AND unit_name = #{unitName}
+            AND ad_status in
+            <foreach collection="adStatus" item="sitem" open="(" separator="," close=")">
+                #{sitem}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

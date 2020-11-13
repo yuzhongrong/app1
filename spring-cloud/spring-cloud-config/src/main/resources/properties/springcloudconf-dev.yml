@@ -1,0 +1,26 @@
+feign:
+  hystrix:
+    #开启熔断器
+    enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        #暴露接口，用于熔断监控
+        include: hystrix.stream
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 100000
+        forceClosed: true
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+

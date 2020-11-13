@@ -1,0 +1,26 @@
+## 测试网点
+#rpc_url: http://api-kylin.eosasia.one/
+#
+## eos正式网点
+##rpc_url: http://api.eosnewyork.io/
+#get_block_url: v1/chain/get_block
+#get_transaction: v1/history/get_transaction
+#get_actions: v1/history/get_actions
+#
+## 控制模块内定时器是否启动时打开
+#schedule:
+#  open: false
+
+
+# eos正式网点
+#rpc_url: http://api.eosnewyork.io/
+#rpc_url: http://eos.greymass.com/
+#rpc_url: https://api.eossweden.se/
+rpc_url: https://eos.greymass.com:443/
+get_block_url: v1/chain/get_block
+get_transaction: v1/history/get_transaction
+get_actions: v1/history/get_actions
+
+# 控制模块内定时器是否启动时打开
+schedule:
+  open: true

@@ -1,0 +1,11 @@
+chuanglansms:
+  status: false
+  closed: false
+  timeout: 5
+  url: http://intapi.253.com/send/json
+  account: I3027764
+  password: EwuK5GL63g8d8a
+  MSG_ZH_CN: "尊敬的先生/女士，您的短信验证码为：{0}，请在15分钟内按照页面提示提交验证码，切勿将验证码告诉他人。谢谢！"
+  MSG_ZH_HK: "【DUOBIT】尊敬的用戶您好！感謝您選擇DUOBIT！驗證碼：{0}，驗證碼有效時間：5分鐘。請勿向任何人包括客服提供驗證碼。"
+  MSG_EN_US: "【DUOBIT】Dear user! Thank you for choosing DUOBIT! Verification Code: {0}, validity time of verification code: 5 minutes. Do not provide verification code to anyone including customer service."
+  MSG_OUT: "【DUOBIT】提现通知：账户 {0} 提现 {1} {2}。请您及时查看。"

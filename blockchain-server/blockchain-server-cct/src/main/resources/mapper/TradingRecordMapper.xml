@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cct.mapper.TradingRecordMapper">
+
+    <sql id="table">app_cct_trading_record</sql>
+
+    <resultMap id="TradingRecordMap" type="com.blockchain.server.cct.entity.TradingRecord">
+        <id property="id" column="id"/>
+        <result property="takerId" column="taker_id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="makerPrice" column="maker_price"/>
+        <result property="takerPrice" column="taker_price"/>
+        <result property="tradingNum" column="trading_num"/>
+        <result property="tradingType" column="trading_type"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="listRecordByCoinAndUnit" resultMap="TradingRecordMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectByCoinAndUnitLimitOne" resultMap="TradingRecordMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        AND TO_DAYS(create_time) = TO_DAYS(NOW()) - 1
+        ORDER BY create_time DESC
+        LIMIT 1
+    </select>
+
+</mapper>

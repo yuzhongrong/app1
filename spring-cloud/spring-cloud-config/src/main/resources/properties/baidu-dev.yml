@@ -1,0 +1,12 @@
+baidu:
+  apiKey: "TZOEm58ETabpGtgGTc60aD0l" # 百度云应用的AK
+  secretKey: "KLA8hYBFn98z5pDp68amYmbI5XPktWeA" #百度云应用的SK
+  authHost: "https://aip.baidubce.com/oauth/2.0/token?" # 获取token地址
+  identityAuthHost: "https://aip.baidubce.com/rest/2.0/face/v3/person/idmatch?access_token=" #身份认证url
+  idcardHost: "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard" #提取身份证图片文字
+  idcardApiKey: "0jmED346Xu8PmbIz2Nf8H913"
+  idcardSecretKey: "wdYKUOPMsjuU5GMT1WyryI5IfrYagmB3"
+  identityValidationHost: "https://aip.baidubce.com/rest/2.0/face/v3/person/verify" #身份验证
+  sessionHost: "https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/sessioncode" #会话sessionid
+  videoDetectionHost: "https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/verify" #视频检测
+  notifyThePhone: "+8617119640056" #通知号码

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.currency.mapper.CurrencyMapper">
+    <resultMap id="CurrencyMap" type="com.blockchain.server.currency.dto.CurrencyDTO">
+        <result property="currencyName" column="currency_name"/>
+        <result property="currencyFullName" column="currency_full_name"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="totalSupply" column="total_supply"/>
+        <result property="totalCirculation" column="total_circulation"/>
+
+        <result property="icoAmount" column="ico_amount"/>
+        <result property="whitePaper" column="white_paper"/>
+        <result property="officialWebsite" column="official_website"/>
+        <result property="blockUrl" column="block_url"/>
+    </resultMap>
+    <sql id="getSql">
+        SELECT
+        currency_name,issue_time,total_supply,total_circulation,ico_amount,white_paper,official_website,block_url,
+        <choose>
+            <when test="lg == 'zh_CN'">
+                currency_name_cn AS currency_full_name,
+                descr_cn AS descr
+            </when>
+            <when test="lg == 'en_US'">
+                currency_name_en AS currency_full_name,
+                descr_en AS descr
+            </when>
+            <otherwise>
+                currency_name_hk AS currency_full_name,
+                descr_hk AS descr
+            </otherwise>
+        </choose>
+        FROM dapp_currency
+    </sql>
+    <select id="getByCurrencyName" resultMap="CurrencyMap">
+        <include refid="getSql"/>
+        WHERE currency_name = #{currencyName}
+    </select>
+
+    <select id="getQuoteCurrency" resultType="java.lang.String">
+        SELECT currency_name FROM dapp_currency
+        WHERE currency_type = 1
+        ORDER BY order_by ASC
+    </select>
+</mapper>

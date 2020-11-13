@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cct.mapper.CoinMapper">
+
+    <sql id="table">app_cct_coin</sql>
+
+    <resultMap id="CoinMap" type="com.blockchain.server.cct.entity.Coin">
+        <id property="id" column="id"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="coinDecimals" column="coin_decimals"/>
+        <result property="unitDecimals" column="unit_decimals"/>
+        <result property="coinNet" column="coin_net"/>
+        <result property="unitNet" column="unit_net"/>
+        <result property="rank" column="rank"/>
+        <result property="tag" column="tag"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <select id="selectByCoinUnitAndStatus" resultMap="CoinMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        AND status = #{status}
+    </select>
+
+    <select id="listCoin" resultMap="CoinMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE status = #{status}
+    </select>
+
+    <select id="listCoinByUnit" resultMap="CoinMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE unit_name = #{unitName}
+        AND status = #{status}
+        ORDER BY `rank` ASC
+    </select>
+
+    <select id="listCoinGroupByUnit" resultType="java.lang.String">
+        SELECT unit_name FROM
+        <include refid="table"/>
+        GROUP BY unit_name
+        ORDER BY `rank` ASC
+    </select>
+
+</mapper>

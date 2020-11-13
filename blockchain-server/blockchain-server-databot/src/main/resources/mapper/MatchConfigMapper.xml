@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.databot.mapper.MatchConfigMapper">
+
+    <sql id="table">bot_match_config</sql>
+
+    <resultMap id="MatchConfigMap" type="com.blockchain.server.databot.entity.MatchConfig">
+        <id property="id" column="id"/>
+        <result property="maxPercent" column="max_percent"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="minPrice" column="min_price"/>
+        <result property="priceType" column="price_type"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="maxPrice" column="max_price"/>
+        <result property="minPercent" column="min_percent"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectByCoinAndUnitAndStauts" resultMap="MatchConfigMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE
+        coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        AND status = #{status}
+    </select>
+
+</mapper>

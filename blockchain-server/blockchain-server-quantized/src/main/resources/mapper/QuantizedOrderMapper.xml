@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.quantized.mapper.QuantizedOrderMapper">
+	<resultMap id="BaseMap" type="com.blockchain.server.quantized.dto.QuantizedOrderDto">
+		<result property="id" column="id"/>
+		<result property="symbol" column="symbol"/>
+	</resultMap>
+	<resultMap id="AllMap" type="com.blockchain.server.quantized.entity.QuantizedOrder">
+		<result property="id" column="id"/>
+		<result property="amount" column="amount"/>
+		<result property="amount" column="amount"/>
+		<result property="canceledAt" column="canceled_at"/>
+		<result property="createdAt" column="created_at"/>
+		<result property="fieldAmount" column="field_amount"/>
+		<result property="fieldCashAmount" column="field_cash_amount"/>
+		<result property="fieldFees" column="field_fees"/>
+		<result property="finishedAt" column="finished_at"/>
+		<result property="price" column="price"/>
+		<result property="source" column="source"/>
+		<result property="state" column="state"/>
+		<result property="symbol" column="symbol"/>
+		<result property="type" column="type"/>
+		<result property="userId" column="user_id"/>
+		<result property="cctId" column="cct_id"/>
+	</resultMap>
+
+	<sql id="table_name">pc_quantized_order</sql>
+
+	<select id="listByNoFinished" resultMap="BaseMap">
+		select id,symbol from <include refid="table_name" /> where finished_at is null OR finished_at = '0'
+	</select>
+
+	<select id="selectByPrimaryKeyForUpdate" resultMap="AllMap">
+		select * from <include refid="table_name" /> where id = #{orderId} FOR UPDATE
+	</select>
+</mapper>

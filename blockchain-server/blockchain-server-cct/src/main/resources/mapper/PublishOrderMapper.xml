@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cct.mapper.PublishOrderMapper">
+
+    <sql id="table">app_cct_publish_order</sql>
+
+    <resultMap id="PublishOrderMap" type="com.blockchain.server.cct.entity.PublishOrder">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="totalNum" column="total_num"/>
+        <result property="lastNum" column="last_num"/>
+        <result property="totalTurnover" column="total_turnover"/>
+        <result property="lastTurnover" column="last_turnover"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="version" column="version"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <resultMap id="MarketDTOMap" type="com.blockchain.common.base.dto.MarketDTO">
+        <result property="unitPrice" column="unit_price"/>
+        <result property="totalNum" column="total_num"/>
+        <result property="totalLastNum" column="total_last_num"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="tradingType" column="order_type"/>
+    </resultMap>
+
+    <select id="listUserOrder" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE user_id = #{userId}
+        <if test="coinName != '' and coinName != null">
+            AND coin_name = #{coinName}
+        </if>
+        <if test="unitName != '' and unitName != null">
+            AND unit_name = #{unitName}
+        </if>
+        <if test="orderType != '' and orderType != null">
+            AND order_type = #{orderType}
+        </if>
+        <if test="publishType != '' and publishType != null">
+            AND publish_type = #{publishType}
+        </if>
+        AND order_status in
+        <foreach collection="status" item="sitem" open="(" separator="," close=")">
+            #{sitem}
+        </foreach>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE id = #{orderId}
+    </select>
+
+    <select id="selectByIdForUpdate" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE id = #{orderId}
+        FOR UPDATE
+    </select>
+
+    <select id="listOrder" resultMap="MarketDTOMap">
+        SELECT
+        unit_price,
+        unit_name,
+        coin_name,
+        SUM(last_num) as total_last_num,
+        SUM(total_num) as total_num,
+        order_type
+        FROM
+        <include refid="table"/>
+        WHERE coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        AND order_type = #{type}
+        AND order_status = #{status}
+        AND publish_type = #{publishType}
+        AND last_num &gt; 0
+        GROUP BY unit_price,coin_name,unit_name
+        ORDER BY unit_price ${sort}
+    </select>
+
+    <select id="listMatchBuyOrder" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        <where>
+            unit_name = #{unitName}
+            AND coin_name = #{coinName}
+            AND order_type = 'BUY'
+            AND order_status = #{status}
+            <if test="price != 0 and price != null">
+                AND unit_price &gt;= #{price}
+            </if>
+            <if test="publishType != '' and publishType != null">
+                AND publish_type = #{publishType}
+            </if>
+        </where>
+        ORDER BY unit_price DESC,create_time ASC
+    </select>
+
+    <select id="listMatchSellOrder" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        <where>
+            unit_name = #{unitName}
+            AND coin_name = #{coinName}
+            AND order_type = 'SELL'
+            AND order_status = #{status}
+            <if test="price != 0 and price != null">
+                AND unit_price &lt;= #{price}
+            </if>
+            <if test="publishType != '' and publishType != null">
+                AND publish_type = #{publishType}
+            </if>
+        </where>
+        ORDER BY unit_price ASC,create_time ASC
+    </select>
+
+    <select id="listMatchOrderToBot" resultMap="PublishOrderMap">
+        SELECT * FROM
+        <include refid="table"/>
+        <where>
+            unit_name = #{unitName}
+            AND coin_name = #{coinName}
+            AND order_status = #{orderStatus}
+            AND unit_price &gt;= #{minPrice}
+            AND unit_price &lt;= #{maxPrice}
+            AND publish_type = #{publishType}
+        </where>
+        LIMIT #{pageSize}
+    </select>
+
+    <select id="listOrderByCoinAndUnitAndStatus" resultMap="MarketDTOMap">
+        SELECT
+        unit_price,
+        unit_name,
+        coin_name,
+        SUM(last_num) as total_last_num,
+        SUM(total_num) as total_num,
+        order_type
+        FROM
+        <include refid="table"/>
+        WHERE coin_name = #{coinName}
+        AND unit_name = #{unitName}
+        AND order_status = #{status}
+        AND order_type = #{type}
+        AND publish_type = #{publishType}
+        AND last_num &gt; 0
+        GROUP BY unit_price,coin_name,unit_name
+        ORDER BY unit_price ${sort}
+    </select>
+
+    <update id="updateStatusInVersionLock">
+        UPDATE
+        <include refid="table"/>
+        SET order_status = #{laterStatus},
+        modify_time = #{time}
+        WHERE id = #{orderId}
+        AND order_status = #{beforeStatus}
+    </update>
+
+</mapper>

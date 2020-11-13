@@ -1,0 +1,51 @@
+@echo off
+
+
+echo *********************begin publish*********************
+echo ¹¤×÷Ä¿Â¼:%cd%
+
+set srcfolder=%cd%\blockchain-server
+set appfolder=%cd%\app-jar
+
+if exist %appfolder% (  
+   RD /S /Q %appfolder%
+)
+mkdir %appfolder%
+
+
+mkdir %appfolder%\btc
+copy %srcfolder%\blockchain-server-btc\target\api-btc.jar %appfolder%\btc
+
+mkdir %appfolder%\eos
+copy %srcfolder%\blockchain-server-eos\target\api-eos.jar %appfolder%\eos
+
+mkdir %appfolder%\bc
+copy %srcfolder%\blockchain-server-bc\target\api-bc.jar %appfolder%\bc
+
+mkdir %appfolder%\eth
+copy %srcfolder%\blockchain-server-eth\target\api-eth.jar %appfolder%\eth
+
+mkdir %appfolder%\wallet
+copy %srcfolder%\blockchain-server-wallet\target\api-wallet.jar %appfolder%\wallet
+
+set srcfolder=%cd%\spring-cloud
+
+mkdir %appfolder%\config
+copy %srcfolder%\spring-cloud-config\target\api-spring-cloud-config.jar %appfolder%\config
+ 
+mkdir %appfolder%\eureka
+copy %srcfolder%\spring-cloud-eureka\target\api-spring-cloud-eureka.jar %appfolder%\eureka
+
+rem mkdir %appfolder%\hystrix
+rem copy %srcfolder%\spring-cloud-hystrix-dashboard\target\api-spring-cloud-hystrix-dashboard.jar %appfolder%\hystrix
+
+
+set srcfolder=%cd%\tx-lcn
+
+mkdir %appfolder%\manager
+copy %srcfolder%\tx-manager\target\api-tx-manager.jar %appfolder%\manager
+ 
+
+copy %cd%\..\..\shell\*.sh %appfolder%
+ 
+pause

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cct.mapper.TradingDetailMapper">
+
+    <sql id="table">app_cct_trading_detail</sql>
+
+    <resultMap id="TradingDetailMap" type="com.blockchain.server.cct.entity.TradingDetail">
+        <id property="id" column="id"/>
+        <result property="recordId" column="record_id"/>
+        <result property="publishId" column="publish_id"/>
+        <result property="realAmount" column="real_amount"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="tradingNum" column="trading_num"/>
+        <result property="chargeRatio" column="charge_ratio"/>
+        <result property="serviceCharge" column="service_charge"/>
+        <result property="tradingType" column="trading_type"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap id="DetailByOrderIdMap" type="com.blockchain.server.cct.dto.trading.DetailByOrderIdDTO">
+        <id property="id" column="id"/>
+        <result property="recordId" column="record_id"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="tradingNum" column="trading_num"/>
+        <result property="serviceCharge" column="service_charge"/>
+        <result property="tradingType" column="trading_type"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+    <resultMap id="ListUserDetail" type="com.blockchain.server.cct.dto.trading.ListUserDetailDTO">
+        <result property="recordId" column="record_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="dealPrice" column="deal_price"/>
+        <result property="dealNum" column="deal_num"/>
+        <result property="dealTurnover" column="deal_turnover"/>
+        <result property="dealCharge" column="deal_charge"/>
+        <result property="entrustPrice" column="entrust_price"/>
+        <result property="entrustNum" column="entrust_num"/>
+        <result property="entrustTurnover" column="entrust_turnover"/>
+        <result property="publishType" column="publish_type"/>
+        <result property="orderType" column="order_type"/>
+        <result property="coinName" column="coin_name"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="listUserDetail" resultMap="ListUserDetail">
+        SELECT
+        td.record_id,
+        po.id order_id,
+        po.user_id,
+        IFNULL(SUM(td.trading_num),0) deal_num,
+        IFNULL(AVG(td.unit_price),0) deal_price,
+        IFNULL(SUM(td.unit_price * td.trading_num),0) deal_turnover,
+        IFNULL(SUM(td.service_charge),0) deal_charge,
+        po.unit_price entrust_price,
+        po.total_num entrust_num,
+        po.total_turnover entrust_turnover,
+        po.publish_type,
+        po.order_type,
+        po.coin_name,
+        po.unit_name,
+        po.order_status,
+        po.modify_time create_time
+        FROM
+        app_cct_trading_detail td
+        RIGHT JOIN app_cct_publish_order po ON po.id = td.publish_id
+        WHERE
+        po.user_id = #{userId}
+        <if test="coinName != '' and coinName != null">
+            AND po.coin_name = #{coinName}
+        </if>
+        <if test="unitName != '' and unitName != null">
+            AND po.unit_name = #{unitName}
+        </if>
+        <if test="beginTime != '' and beginTime != null">
+            AND DATE_FORMAT(#{beginTime},'%Y-%m-%d') &lt;= DATE_FORMAT(td.create_time,'%Y-%m-%d')
+        </if>
+        <if test="lastTime != '' and lastTime != null">
+            AND DATE_FORMAT(#{lastTime},'%Y-%m-%d') &gt;= DATE_FORMAT(td.create_time,'%Y-%m-%d')
+        </if>
+        <if test="status != '' and status != null">
+            AND po.order_status = #{status}
+        </if>
+        GROUP BY
+        po.id
+        ORDER BY
+        po.modify_time DESC
+    </select>
+
+    <select id="listDetailByOrderId" resultMap="DetailByOrderIdMap">
+        SELECT
+        id,
+        record_id,
+        unit_price,
+        trading_num,
+        service_charge,
+        trading_type,
+        create_time
+        FROM
+        <include refid="table"/>
+        WHERE publish_id = #{orderId}
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

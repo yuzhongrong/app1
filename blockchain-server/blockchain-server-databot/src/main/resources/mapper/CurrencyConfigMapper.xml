@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.databot.mapper.CurrencyConfigMapper">
+
+    <sql id="table">bot_currency_config</sql>
+
+    <resultMap id="CurrencyConfigMap" type="com.blockchain.server.databot.entity.CurrencyConfig">
+        <id property="id" column="id"/>
+        <result property="currencyPair" column="currency_pair"/>
+        <result property="kDayTotalAmount" column="k_day_total_amount"/>
+        <result property="kMaxChangePercent" column="k_max_change_percent"/>
+        <result property="kChangePercent" column="k_change_percent"/>
+        <result property="kMaxPrice" column="k_max_price"/>
+        <result property="kMinPrice" column="k_min_price"/>
+        <result property="buyPricePercent" column="buy_price_percent"/>
+        <result property="buyTotalAmount" column="buy_total_amount"/>
+        <result property="buyMaxPrice" column="buy_max_price"/>
+        <result property="buyMinPrice" column="buy_min_price"/>
+        <result property="sellPricePercent" column="sell_price_percent"/>
+        <result property="sellTotalAmount" column="sell_total_amount"/>
+        <result property="sellMaxPrice" column="sell_max_price"/>
+        <result property="sellMinPrice" column="sell_min_price"/>
+        <result property="status" column="status"/>
+        <result property="priceType" column="price_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <select id="selectByCurrencyPair" resultMap="CurrencyConfigMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE currency_pair = #{currencyPair}
+    </select>
+
+    <select id="selectByStatus" resultMap="CurrencyConfigMap">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE status = #{status}
+    </select>
+
+</mapper>

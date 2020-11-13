@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.user.mapper.AuthenticationApplyLogMapper">
+	<sql id="table_name">pc_u_authentication_apply_log</sql>
+
+	<select id="selectRemarkByUserId" resultType="com.blockchain.server.user.entity.AuthenticationApplyLog">
+		select *
+		from
+		<include refid="table_name"/>
+		where user_id = #{userId}
+		and type = #{type}
+		and apply_result = 'F'
+		order by create_time desc LIMIT 1
+	</select>
+
+
+</mapper>

@@ -1,0 +1,10 @@
+#极光配置信息
+JiGuang:
+  p_type: FKEX
+  appkey: 144ac68f09440d186d5d3c95
+  secret: 0744d3cd5eebabf3ff00512b
+  #随机数，随便填
+  random_str: d8496dd94124ee33209f3fc42019
+  api:
+    address: https://api.im.jpush.cn
+    address_v2: https://report.im.jpush.cn/v2

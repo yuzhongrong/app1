@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.currency.mapper.CurrencyMarketMapper">
+    <resultMap id="CurrencyMarketMap" type="com.blockchain.server.currency.dto.CurrencyMarketDTO">
+        <result property="currencyPair" column="currency_pair"/>
+        <result property="amount" column="amount"/>
+        <result property="timestamp" column="timestamp"/>
+    </resultMap>
+    <resultMap id="CurrencyMarketKMap" type="com.blockchain.server.currency.dto.CurrencyMarketKDTO">
+        <result property="open" column="open"/>
+        <result property="close" column="close"/>
+        <result property="openTime" column="open_time"/>
+        <result property="closeTime" column="close_time"/>
+        <result property="lowest" column="lowest"/>
+        <result property="highest" column="highest"/>
+        <result property="total" column="total"/>
+        <result property="date" column="date"/>
+    </resultMap>
+
+    <select id="queryForK" resultMap="CurrencyMarketKMap" parameterType="java.util.Map">
+        SELECT
+        c.lowest AS lowest,
+        c.highest AS highest,
+        c.open_time AS open_time,
+        c.close_time AS close_time,
+        c.total AS total,
+        c1.amount AS 'open',
+        c2.amount AS 'close'
+        FROM
+        (
+        SELECT
+        MIN(amount) AS lowest,
+        MAX(amount) AS highest,
+        MIN(`timestamp`) AS open_time,
+        MAX(`timestamp`) AS close_time,
+        SUM(total) AS total,
+        FLOOR(`timestamp`/#{second}) AS gb
+        FROM
+        dapp_currency_market
+        WHERE
+        currency_pair = #{currencyPair}
+        GROUP BY
+        gb
+        ORDER BY
+        gb DESC
+        LIMIT 0,
+        1000
+        ) c
+        INNER JOIN dapp_currency_market c1 ON c.open_time = c1.`timestamp`
+        INNER JOIN dapp_currency_market c2 ON c.close_time = c2.`timestamp`
+        WHERE
+        c1.currency_pair = #{currencyPair}
+        AND c2.currency_pair = #{currencyPair}
+        GROUP BY
+        c.gb
+        ORDER BY
+        c.open_time ASC
+    </select>
+
+</mapper>

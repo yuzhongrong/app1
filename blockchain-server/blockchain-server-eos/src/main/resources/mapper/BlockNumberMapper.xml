@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eos.mapper.BlockNumberMapper">
+	<resultMap id="BlockNumber" type="com.blockchain.server.eos.dto.BlockNumberDTO">
+		<result property="blockNumber" column="block_number"/>
+		<result property="endBlockNumber" column="end_block_number"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_eos_block_number</sql>
+
+	<select id="selectMinBlockNum" resultType="java.math.BigInteger">
+		select block_number from <include refid="tableName"/>
+		order by block_number asc limit 0, 1
+	</select>
+
+	<select id="selectMaxBlockNum" resultType="java.math.BigInteger">
+		select block_number from <include refid="tableName"/>
+		order by block_number desc limit 0, 1
+	</select>
+
+	<select id="selectBlockNumIsExist" resultType="java.math.BigInteger" resultMap="BlockNumber">
+		select block_number, create_time from <include refid="tableName"/>
+		where block_number = #{blockNum}
+	</select>
+
+	<select id="selectBlockNumStatusByBlockNum" parameterType="java.math.BigInteger" resultType="java.lang.Character">
+		select status
+		from <include refid="tableName"/>
+		where block_number = #{blockNum}
+	</select>
+
+	<!-- 该方法为查漏区块方法，此处的100为查询最高区块下面的区块，防止重复处理最新区块-->
+	<select id="listBlockNumberByStatus" parameterType="java.lang.Character" resultType="java.math.BigInteger">
+		SELECT block_number FROM <include refid="tableName"/>
+		WHERE status = #{status}
+		AND block_number &lt; (SELECT block_number
+		FROM <include refid="tableName"/> ORDER BY block_number desc LIMIT 1) - 100
+	</select>
+
+	<update id="updateBlockNumberByStatus">
+		update <include refid="tableName"/>
+		set status = #{status}
+		where block_number = #{blockNum}
+	</update>
+
+	<insert id="insertSelectiveIgnore" parameterType="com.blockchain.server.eos.entity.BlockNumber">
+		insert ignore into <include refid="tableName"/>
+		(block_number, status, create_time)
+		value (#{blockNumber}, #{status}, #{createTime})
+	</insert>
+
+</mapper>

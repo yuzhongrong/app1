@@ -1,0 +1,24 @@
+server:
+  port: 8301
+  servlet:
+    context-path: /btc
+#注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-host}:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+spring:
+  cloud:
+    #配置中心
+    config:
+      profile: dev
+      name: springconf,springcloudconf,redisconf,dbconf,txconf,xssconf,btcconf,ipconf
+      discovery:
+        service-id: dapp-config-server
+        enabled: true
+  application:
+    name: dapp-btc-server

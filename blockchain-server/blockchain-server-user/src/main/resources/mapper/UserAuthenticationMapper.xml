@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.user.mapper.UserAuthenticationMapper">
+	<resultMap id="AppUUserAuthenticationMap" type="com.blockchain.server.user.entity.UserAuthentication">
+		<result property="realName" column="real_name"/>
+		<result property="createTime" column="create_time"/>
+		<result property="fileUrl2" column="file_url2"/>
+		<result property="fileUrl1" column="file_url1"/>
+		<result property="fileUrl4" column="file_url4"/>
+		<result property="midifyTime" column="midify_time"/>
+		<result property="fileUrl3" column="file_url3"/>
+		<result property="id" column="id"/>
+		<result property="type" column="type"/>
+		<result property="idNumber" column="id_number"/>
+		<result property="userId" column="user_id"/>
+	</resultMap>
+
+</mapper>

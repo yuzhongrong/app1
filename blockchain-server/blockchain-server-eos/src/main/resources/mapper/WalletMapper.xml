@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eos.mapper.WalletMapper">
+    <resultMap id="walletMap" type="com.blockchain.server.eos.dto.WalletDTO">
+        <result property="id" column="id"/>
+        <result property="tokenName" column="token_name"/>
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="balance" column="balance"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="walletType" column="wallet_type"/>
+
+    </resultMap>
+
+    <resultMap id="WalletBalanceDTO" type="com.blockchain.common.base.dto.WalletBalanceDTO">
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+
+    <resultMap id="WalletBalanceBatchDTO" type="com.blockchain.common.base.dto.WalletBalanceBatchDTO">
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+
+    <sql id="tableName">dapp_eos_wallet</sql>
+
+    <update id="updateWalletBalanceByIdInRowLock">
+        UPDATE
+        <include refid="tableName"/>
+        wallet
+        SET
+        wallet.balance = wallet.balance + #{balance},
+        wallet.free_balance = wallet.free_balance + #{balance},
+        wallet.update_time = #{modifyTime}
+        WHERE
+        wallet.id = #{id}
+    </update>
+
+    <select id="selectWalletByUserOpenId" parameterType="java.lang.String" resultMap="walletMap">
+        select id, token_name, user_open_id, token_symbol, balance, free_balance, freeze_balance, create_time,
+        update_time, wallet_type
+        from
+        <include refid="tableName"/>
+        where user_open_id = #{userOpenId}
+        and token_name = #{tokenName}
+    </select>
+
+    <update id="updateWalletAllBalanceInRowLock">
+        UPDATE <include refid="tableName"/> wallet
+        SET
+        wallet.balance = wallet.balance + #{balance},
+        wallet.free_balance = wallet.free_balance + #{freeBalance},
+        wallet.freeze_balance = wallet.freeze_balance + #{freezeBalance},
+        wallet.update_time = #{modifyTime}
+        WHERE wallet.user_open_id = #{userOpenId}
+        and token_name = #{tokenName}
+        and wallet_type = #{walletType}
+        AND wallet.free_balance + #{freeBalance} >= 0
+        AND wallet.freeze_balance + #{freezeBalance} >= 0
+    </update>
+
+    <select id="listWalletByWalletType" parameterType="java.lang.String" resultMap="walletMap">
+        select id, token_name, user_open_id, token_symbol, balance, free_balance, freeze_balance, create_time, update_time, wallet_type
+        from <include refid="tableName"/>
+        where user_open_id = #{userOpenId}
+        and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectWallet" parameterType="java.lang.String" resultMap="walletMap">
+        select id, token_name, user_open_id, token_symbol, balance, free_balance, freeze_balance, create_time, update_time, wallet_type
+        from <include refid="tableName"/>
+        where user_open_id = #{userOpenId} and token_name = #{tokenName} and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectWalletByTokenSymbol" parameterType="java.lang.String" resultMap="walletMap">
+        select id, token_name, user_open_id, token_symbol, balance, free_balance, freeze_balance, create_time, update_time, wallet_type
+        from <include refid="tableName"/>
+        where user_open_id = #{userId} and token_symbol = #{tokenSymbol} and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectCountWalletByUserOpenId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from <include refid="tableName"/>
+        where user_open_id = #{userId}
+    </select>
+
+    <select id="getBalanceByIdAndTypes" resultMap="WalletBalanceDTO">
+        SELECT token_symbol, wallet_type, free_balance, freeze_balance
+        FROM <include refid="tableName"/>
+        WHERE user_open_id = #{userOpenId}
+        <if test="walletTypes != null">
+            AND wallet_type IN
+            <foreach item="wt" collection="walletTypes" open="(" separator="," close=")">
+                #{wt}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getBalanceByIdAndTypesBatch" resultMap="WalletBalanceBatchDTO">
+        SELECT user_open_id, token_symbol, wallet_type, free_balance, freeze_balance
+        FROM <include refid="tableName"/>
+        WHERE
+        <if test="walletTypes != null">
+            wallet_type IN
+            <foreach item="wt" collection="walletTypes" open="(" separator="," close=")">
+                #{wt}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

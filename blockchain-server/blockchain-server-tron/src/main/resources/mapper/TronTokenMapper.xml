@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronTokenMapper">
+    <resultMap id="WalletTokenMap" type="com.blockchain.server.tron.entity.TronToken">
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="tokenHexAddr" column="token_hex_addr"/>
+        <result property="tokenDecimal" column="token_decimal"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="totalSupply" column="total_supply"/>
+        <result property="totalCirculation" column="total_circulation"/>
+        <result property="descr" column="descr"/>
+    </resultMap>
+
+    <resultMap id="WalletTokenDTOMap" type="com.blockchain.server.tron.dto.TronTokenDTO">
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="tokenHexAddr" column="token_hex_addr"/>
+        <result property="timestamp" column="timestamp"/>
+    </resultMap>
+
+    <sql id="tableName">dapp_tron_token</sql>
+    <sql id="selectFromName">
+        select token_addr, token_hex_addr, token_symbol, token_decimal, issue_time, total_supply, total_circulation, descr from
+        <include refid="tableName"/>
+    </sql>
+
+    <select id="selectTronTokenByTokenName" parameterType="java.lang.String" resultMap="WalletTokenMap">
+        <include refid="selectFromName"/>
+        where token_addr = #{tokenAddr}
+    </select>
+
+    <select id="selectByToken" parameterType="java.lang.String" resultMap="WalletTokenDTOMap">
+        select token_addr, token_hex_addr, token_symbol
+        from
+        <include refid="tableName"/>
+        where token_symbol = #{tokenSymbol}
+    </select>
+
+</mapper>

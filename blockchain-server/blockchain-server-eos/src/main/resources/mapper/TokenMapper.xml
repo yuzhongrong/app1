@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eos.mapper.TokenMapper">
+    <resultMap id="WalletTokenMap" type="com.blockchain.server.eos.dto.TokenDTO">
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="tokenName" column="token_name"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="totalSupply" column="total_supply"/>
+        <result property="totalCirculation" column="total_circulation"/>
+        <result property="descr" column="descr"/>
+    </resultMap>
+
+    <sql id="tableName">dapp_eos_token</sql>
+    
+    <select id="listTokenNameAll" resultType="java.lang.String">
+        select token_name from <include refid="tableName"/>
+    </select>
+
+    <select id="selectEosTokenByTokenName" parameterType="java.lang.String" resultMap="WalletTokenMap">
+        select token_name, token_symbol, issue_time, total_supply, total_circulation, descr from <include refid="tableName"/>
+        where token_name = #{tokenName}
+    </select>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.imjg.mapper.ImjgMessageLogMapper">
+    <sql id="tableName">imjg_message_log</sql>
+
+<!--    <resultMap id="mlfMessageLog" type="com.blockchain.server.imjg.entity.MlfMessageLog">
+        <id column="id" property="id"/>
+        <result column="target_type" property="targetType"/>
+        <result column="msg_type" property="msgType"/>
+        <result column="target_id" property="targetId"/>
+        <result column="target_name" property="targetName"/>
+        <result column="from_id" property="fromId"/>
+
+        <result column="from_name" property="fromName"/>
+        <result column="from_type" property="fromType"/>
+        <result column="msg_id" property="msgId"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+
+    </resultMap>-->
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and b.id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('chatLog') and chatLog>0">
+                and (from_id=#{userId}||target_id=#{userId})
+            </if>
+
+            <if test="_parameter.containsKey('dataId') and dataId != null and dataId != ''">
+                and data_id=#{dataId}
+            </if>
+            <if test="_parameter.containsKey('pType') and pType != null and pType != ''">
+                and p_type=#{pType}
+            </if>
+            <if test="1==1">
+                and status='NORMAL' || status='SHOW'
+            </if>
+        </where>
+    </sql>
+
+    <select id="listBy" resultType="com.blockchain.server.imjg.entity.ImjgMessageLog">
+        select * from imjg_message_log
+        <include refid="dynamicWhere"/>
+        <if test="_parameter.containsKey('order') and order!=null">
+            order by ${order}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"  parameterType="com.blockchain.server.imjg.entity.ImjgMessageLog">
+        insert into imjg_message_log (p_type,data_id,msg_type,target_id,from_id,msg_id,node_cue,STATUS,gmt_create,gmt_modified)
+        values (#{pType},#{dataId},#{msgType},#{targetId},#{fromId},#{msgId},#{nodeCue},#{status},now(),now())
+    </insert>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.AdSliderMapper">
+    
+    <resultMap type="com.blockchain.server.sysconf.dto.AdSliderDto" id="AdSliderResult">
+        <result property="id"    column="id"    />
+        <result property="imgPath"    column="img_path"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+    <select id="listAdSliderForApp" parameterType="com.blockchain.server.sysconf.dto.AdSliderDto" resultMap="AdSliderResult">
+        select img_path, serial_number from conf_ad_slider
+        where status = 1
+        order by serial_number asc
+    </select>
+
+</mapper>

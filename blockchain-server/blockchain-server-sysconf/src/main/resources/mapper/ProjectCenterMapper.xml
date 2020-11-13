@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.sysconf.mapper.ProjectCenterMapper">
+    <sql id="tableName">conf_project_center_info</sql>
+
+    <select id="list" resultType="com.blockchain.server.sysconf.dto.ProjectCenterDto">
+        SELECT cpci.id,cpci.currency_name AS currencyName,cpci.order_by AS orderBy,cpci.coin_url AS coinUrl,
+        cpci.descr,
+        cpcc.name AS classifyName,cpcs.num AS starNum, CASE cpcu.id WHEN cpcu.id THEN 1 ELSE 0  END AS star FROM conf_project_center_info cpci
+        LEFT JOIN conf_project_center_classify cpcc ON cpci.classify_id = cpcc.id
+        LEFT JOIN (
+        SELECT project_id,count(id) AS num
+        FROM conf_project_center_star GROUP BY project_id
+        ) cpcs ON cpcs.project_id = cpci.id
+        LEFT JOIN ( SELECT project_id, id FROM conf_project_center_star WHERE user_id = #{userId} ) cpcu ON cpcu.project_id = cpci.id
+        <where>
+            <if test="status != null and status != ''"> AND cpci.status = #{status}</if>
+            <if test="classifyId != null and classifyId != ''"> and cpci.classify_id = #{classifyId}</if>
+            <if test="descr != null and descr != ''"> and cpci.descr like concat('%', #{descr}, '%')</if>
+            <if test="languages != null and languages != ''"> and cpci.languages = #{languages}</if>
+        </where>
+        ORDER BY order_by DESC,cpci.create_time DESC
+    </select>
+
+    <select id="reportList" resultType="com.blockchain.server.sysconf.entity.ProjectCenterReport">
+        select * from conf_project_center_report
+        <where>
+            <if test="status != null and status != ''"> and status = #{status}</if>
+            <if test="projectId != null and projectId != ''"> and project_id = #{projectId}</if>
+            <if test="reportType != null and reportType != ''"> and type = #{reportType}</if>
+            <if test="startDate != null and startDate != ''">AND DATE_FORMAT(create_time,'%Y-%m-%d')
+                >= DATE_FORMAT(#{startDate},'%Y-%m-%d')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="classifyList" resultType="com.blockchain.server.sysconf.entity.ProjectCenterClassify">
+        select * from conf_project_center_classify
+        <where>
+            <if test="status != null and status != ''"> AND status = #{status}</if>
+            <if test="languages != null and languages != ''"> and languages = #{languages}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>

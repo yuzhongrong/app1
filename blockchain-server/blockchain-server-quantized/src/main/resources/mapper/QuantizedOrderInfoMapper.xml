@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.quantized.mapper.QuantizedOrderInfoMapper">
+	<resultMap id="BaseMap" type="com.blockchain.server.quantized.entity.QuantizedOrderInfo">
+		<result property="id" column="id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="symbol" column="symbol"/>
+		<result property="times" column="times"/>
+		<result property="status" column="status"/>
+		<result property="cctId" column="cct_id"/>
+		<result property="die" column="is_die"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyTime" column="modify_time"/>
+	</resultMap>
+
+	<sql id="table_name">pc_quantized_order_info</sql>
+
+	<select id="listByStatusAndCreateTime" resultMap="BaseMap">
+		select * from <include refid="table_name" /> where status = #{status} AND create_time &lt; #{createTime} ORDER BY create_time
+	</select>
+
+	<select id="selectByPrimaryKeyForUpdate" resultMap="BaseMap">
+		select * from <include refid="table_name" /> where id = #{id} FOR UPDATE
+	</select>
+
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.sysconf.mapper.NewsMapper">
+
+    <sql id="column">
+        id
+    </sql>
+    <sql id="tableName">conf_news</sql>
+
+    <resultMap id="NewsDTOMap" type="com.blockchain.server.sysconf.entity.News">
+        <result column="id" property="id"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="url" property="url"></result>
+        <result column="create_time" property="createTime"></result>
+    </resultMap>
+
+    <resultMap id="BaseMap" type="com.blockchain.server.sysconf.entity.News">
+        <result column="id" property="id"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="url" property="url"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="languages" property="languages"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="modify_time" property="modifyTime"></result>
+    </resultMap>
+
+    <select id="listNewsDTO" parameterType="com.blockchain.server.sysconf.dto.NewsQueryConditionDTO" resultMap="NewsDTOMap">
+        SELECT id, title, content, url, create_time
+        FROM
+        <include refid="tableName"/>
+        <where>
+            <if test="type != null">
+                AND `type` = #{type}
+            </if>
+            <if test="languages != null and languages != ''">
+                AND languages = #{languages}
+            </if>
+            <choose>
+                <when test="beginTime != null and endTime != null">
+                    AND create_time BETWEEN #{beginTime} AND #{endTime}
+                </when>
+                <when test="beginTime != null">
+                    AND create_time &lt; #{beginTime}
+                </when>
+                <when test="endTime != null">
+                    AND create_time &gt; #{endTime}
+                </when>
+            </choose>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="listAll" resultMap="BaseMap" parameterType="com.blockchain.server.sysconf.dto.NewsQueryConditionDTO">
+        select *
+        FROM
+        <include refid="tableName"/>
+        <where>
+            <if test="title != null and title != ''">
+                AND title like concat('%', #{title}, '%')
+            </if>
+            <if test="type != null">
+                AND `type` = #{type}
+            </if>
+            <if test="languages != null and languages != ''">
+                AND languages = #{languages}
+            </if>
+            <choose>
+                <when test="beginTime != null and endTime != null">
+                    AND create_time BETWEEN #{beginTime} AND #{endTime}
+                </when>
+                <when test="beginTime != null">
+                    AND create_time &lt; #{beginTime}
+                </when>
+                <when test="endTime != null">
+                    AND create_time &gt; #{endTime}
+                </when>
+            </choose>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

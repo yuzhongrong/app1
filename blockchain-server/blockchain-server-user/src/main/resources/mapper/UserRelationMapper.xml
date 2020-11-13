@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.user.mapper.UserRelationMapper">
+	<resultMap id="AppUUserRelationMap" type="com.blockchain.server.user.entity.UserRelation">
+		<result property="relationChain" column="relation_chain"/>
+		<result property="treeDepth" column="tree_depth"/>
+		<result property="createTime" column="create_time"/>
+		<result property="pid" column="pid"/>
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+	</resultMap>
+
+	<resultMap id="UserTeamDTO" type="com.blockchain.common.base.dto.UserTeamDTO">
+		<result property="userId" column="user_id"/>
+		<result property="mobilePhone" column="mobile_phone"/>
+		<result property="createTime" column="create_time"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="lowAuth" column="low_auth"/>
+		<result property="highAuth" column="high_auth"/>
+		<result property="teamNum" column="team_num"/>
+		<result property="avatar" column="avatar"/>
+	</resultMap>
+
+	<resultMap id="UserRelationDTO" type="com.blockchain.common.base.dto.UserRelationDTO">
+		<result property="userId" column="user_id"/>
+		<result property="pid" column="pid"/>
+	</resultMap>
+
+	<select id="getAllUserRelation" resultMap="UserRelationDTO">
+		SELECT user_id,pid
+		FROM dapp_u_user_relation
+	</select>
+
+
+	<select id="getDirects" resultType="string">
+		SELECT user_id
+		FROM dapp_u_user_relation
+		WHERE pid = #{userId}
+	</select>
+
+	<select id="getAllSubordinate" resultType="string">
+		SELECT user_id
+		FROM dapp_u_user_relation
+		WHERE FIND_IN_SET(#{userId}, relation_chain)
+	</select>
+
+	<select id="listUserDirectTeam" resultMap="UserTeamDTO">
+		SELECT ur.user_id, (SELECT COUNT(*) FROM dapp_u_user_relation WHERE FIND_IN_SET(ur.user_id, relation_chain)) AS team_num,
+			um.mobile_phone, um.nick_name, um.create_time,
+			ui.low_auth, ui.high_auth, ui.avatar
+		FROM dapp_u_user_relation ur LEFT JOIN dapp_u_user_main um ON ur.user_id = um.id
+			LEFT JOIN dapp_u_user_info ui ON ur.user_id = ui.user_id
+		WHERE ur.pid = #{userId}
+	</select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.user.mapper.SmsCountMapper">
+    <sql id="column">
+        id
+    </sql>
+    <sql id="tableName">dapp_u_sms_count</sql>
+
+    <select id="getSmsRecordByPhoneAndTypeOfDay" resultType="com.blockchain.server.user.entity.SmsCount">
+        SELECT id,phone,sms_type,sms_count,sms_date
+        FROM
+        <include refid="tableName"/>
+        WHERE phone = #{phone}
+        AND sms_type = #{smsType}
+        AND DATEDIFF(sms_date,#{smsDate}) = 0
+    </select>
+
+    <update id="updateIncrCountByPhoneAndTypeInRowLock">
+        UPDATE
+        <include refid="tableName"/>
+        SET sms_count = sms_count + 1
+        WHERE
+        phone = #{phone}
+        AND sms_type = #{smsType}
+        AND sms_count = #{count}
+    </update>
+
+</mapper>

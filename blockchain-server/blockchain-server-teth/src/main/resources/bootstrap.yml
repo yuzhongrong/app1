@@ -1,0 +1,24 @@
+server:
+  port: 7201
+  servlet:
+    context-path: /teth
+#注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-host}:8001/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+spring:
+  cloud:
+    #配置中心
+    config:
+      discovery:
+        service-id: dapp-config-server
+        enabled: true
+      profile: dev
+      name: springconf,springcloudconf,redisconf,txconf,xssconf,ethconf,ipconf,dbconf,tethconf
+  application:
+    name: dapp-teth-server

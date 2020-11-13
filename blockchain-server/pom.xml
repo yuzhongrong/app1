@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>blockchain</artifactId>
+        <groupId>com.blockchain</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>blockchain-server</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>blockchain-server-base</module>
+        <module>blockchain-server-cct</module>
+        <module>blockchain-server-otc</module>
+        <module>blockchain-server-databot</module>
+        <module>blockchain-server-btc</module>
+        <module>blockchain-server-ltc</module>
+        <module>blockchain-server-eth</module>
+        <module>blockchain-server-eos</module>
+        <module>blockchain-server-currency</module>
+        <module>blockchain-server-sysconf</module>
+        <module>blockchain-server-imjg</module>
+        <module>blockchain-server-user</module>
+        <module>blockchain-server-tron</module>
+        <module>blockchain-server-quantized</module>
+        <module>blockchain-server-teth</module>
+
+
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.blockchain</groupId>
+            <artifactId>blockchain-common-base</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+
+    </dependencies>
+
+</project>

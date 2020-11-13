@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.user.mapper.UserAccountMapper">
+
+    <sql id="table_name">dapp_u_user_login_account</sql>
+
+    <select id="selectUserId" resultType="string">
+        select user_id
+        from <include refid="table_name"/>
+        where account_name = #{accountName}
+    </select>
+
+</mapper>

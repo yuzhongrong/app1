@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blockchain.server.imjg.mapper.ImjgUserMapper">
+    <sql id="tableName">imjg_user</sql>
+
+<!--    <resultMap id="mlfImjgUser" type="com.blockchain.server.imjg.entity.MlfImjgUser">
+        <id column="id" property="id"/>
+
+    </resultMap>-->
+
+    <sql id="dynamicWhere">
+        <where>
+            <if test="_parameter.containsKey('ids') and ids != null and ids != ''">
+                and b.id in (${ids})
+            </if>
+            <if test="_parameter.containsKey('type') and type>0">
+                and a.type = #{type}
+            </if>
+            <if test="_parameter.containsKey('tenantId') and tenantId>0">
+                and a.tenant_id = #{tenantId}
+            </if>
+            <if test="_parameter.containsKey('status') and status>0">
+                and b.status = #{status}
+            </if>
+            <if test="_parameter.containsKey('courseIds') and courseIds != null and courseIds != ''">
+                and a.course_id in (${courseIds})
+            </if>
+            <if test="id>0">
+                and b.id =#{id}
+            </if>
+            <if test="_parameter.containsKey('theme') and theme != null and theme != ''">
+                and b.theme like concat(#{theme},'%')
+            </if>
+            <if test="_parameter.containsKey('speakerName') and speakerName != null and speakerName != ''">
+                and b.speaker_names like concat(#{speakerName},'%')
+            </if>
+            <if test="1==1">
+                and b.status != 5
+            </if>
+        </where>
+    </sql>
+
+    <!--<select id="list" resultType="com.blockchain.server.imjg.entity.ImjgUser">-->
+        <!--select * from imjg_user-->
+        <!--<include refid="dynamicWhere"/>-->
+        <!--<if test="_parameter.containsKey('order') and order!=null">-->
+            <!--order by ${order}-->
+        <!--</if>-->
+        <!--limit #{start},#{size}-->
+    <!--</select>-->
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"  parameterType="com.blockchain.server.imjg.entity.ImjgUser">
+        insert into imjg_user(user_id,jg_username,jg_password,gmt_create,gmt_modified)
+        values (#{userId},#{jgUsername},#{jgPassword},now(),now())
+    </insert>
+
+        <select id="selectByUserId" resultType="com.blockchain.server.imjg.entity.ImjgUser">
+        select * from imjg_user where user_id=#{userId} limit 0,1
+    </select>
+</mapper>

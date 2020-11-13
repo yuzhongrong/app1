@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eth.mapper.EthTransferAuditingMapper">
+	<resultMap id="EthTransferAuditingMap" type="com.blockchain.server.eth.entity.EthTransferAuditing">
+		<result property="transferStatus" column="transfer_status"/>
+		<result property="createTime" column="create_time"/>
+		<result property="id" column="id"/>
+		<result property="sysUserId" column="sys_user_id"/>
+		<result property="transferId" column="transfer_id"/>
+		<result property="ipAddr" column="ip_addr"/>
+	</resultMap>
+
+</mapper>

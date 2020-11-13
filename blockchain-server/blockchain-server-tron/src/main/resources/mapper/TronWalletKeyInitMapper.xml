@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.tron.mapper.TronWalletKeyInitMapper">
+    <resultMap id="walletInMap" type="com.blockchain.server.tron.entity.TronWalletKeyInit">
+        <result property="addr" column="addr"/>
+        <result property="hexAddr" column="hex_addr"/>
+        <result property="privateKey" column="private_key"/>
+        <result property="keystore" column="keystore"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="tableName">
+        dapp_tron_wallet_key_init
+    </sql>
+    <sql id="selectFrom">
+        select addr, hex_addr, private_key, keystore, create_time
+        from
+        <include refid="tableName"/>
+    </sql>
+
+    <select id="selectByLimitOne" resultMap="walletInMap">
+        <include refid="selectFrom"/>
+        order by create_time asc
+        limit 1
+    </select>
+
+    <delete id="deleteByAddr" parameterType="java.lang.String">
+        delete from
+        <include refid="tableName"/>
+        where addr = #{addr}
+    </delete>
+
+    <select id="selectWalletCount" resultType="java.lang.Long">
+        select count(*)
+        from
+        <include refid="tableName"/>
+    </select>
+
+    <select id="selectCreateTimeAsc" parameterType="java.lang.Long" resultMap="walletInMap">
+        <include refid="selectFrom"/>
+        order by create_time asc
+        limit ${limit}
+    </select>
+
+</mapper>

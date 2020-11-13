@@ -1,0 +1,22 @@
+spring:
+  cache:
+    type: Redis
+  redis:
+    database: 0
+#    host: 172.20.0.1
+    host: ${redis-host}
+    port: 7788
+    password:
+    timeout: 10000ms
+    jedis:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+    cache:
+      #自定义属性，redis缓存失效时间
+      timeout-seconds: 1800
+    expired:
+      #失效缓存key监听
+      listener: __keyevent@${spring.redis.database}__:expired

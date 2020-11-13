@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.eth.mapper.EthWalletKeyMapper">
+    <resultMap id="EthWalletKeyMap" type="com.blockchain.server.eth.entity.EthWalletKey">
+        <result property="privateKey" column="private_key"/>
+        <result property="addr" column="addr"/>
+    </resultMap>
+    <sql id="tableName">dapp_eth_wallet_key</sql>
+    <select id="selectAllAddrs" resultType="String">
+        SELECT addr FROM
+        <include refid="tableName"/>
+    </select>
+
+    <update id="update">
+        UPDATE
+        <include refid="tableName"/>
+        SET
+        keystore = #{ethWalletKey.keystore},
+        update_time = #{ethWalletKey.updateTime}
+        WHERE
+        user_open_id = #{ethWalletKey.userOpenId}
+        AND
+        addr = #{ethWalletKey.addr}
+    </update>
+
+</mapper>

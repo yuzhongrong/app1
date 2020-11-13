@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.teth.mapper.EthWalletMapper">
+    <resultMap id="EthWalletMap" type="com.blockchain.server.teth.entity.EthWallet">
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="balance" column="balance"/>
+        <result property="createTime" column="create_time"/>
+        <result property="tokenDecimals" column="token_decimals"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="addr" column="addr"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+    <resultMap id="EthWalletDTO" type="com.blockchain.server.teth.dto.EthWalletDTO">
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="balance" column="balance"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="tokenDecimals" column="token_decimals"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="addr" column="addr"/>
+        <result property="tokenAddr" column="token_addr"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+    <resultMap id="WalletBalanceDTO" type="com.blockchain.common.base.dto.WalletBalanceDTO">
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+
+    <resultMap id="WalletBalanceBatchDTO" type="com.blockchain.common.base.dto.WalletBalanceBatchDTO">
+        <result property="userOpenId" column="user_open_id"/>
+        <result property="tokenSymbol" column="token_symbol"/>
+        <result property="walletType" column="wallet_type"/>
+        <result property="freeBalance" column="free_balance"/>
+        <result property="freezeBalance" column="freeze_balance"/>
+    </resultMap>
+    <sql id="tableName">dapp_teth_wallet</sql>
+
+    <sql id="selectEthWalletVo">
+        SELECT
+        user_open_id,
+        token_symbol,
+        balance,
+        create_time,
+        token_decimals,
+        wallet_type,
+        update_time,
+        free_balance,
+        addr,
+        token_addr,
+        freeze_balance
+        FROM
+        <include refid="tableName"/>
+    </sql>
+
+    <select id="selectByAddrAndTokenAddr" resultMap="EthWalletDTO">
+        <include refid="selectEthWalletVo"/>
+        WHERE
+        addr = #{addr}
+        and token_addr = #{tokenAddr}
+    </select>
+
+    <select id="selectByAddrAndTokenAddrAndWalletType" resultMap="EthWalletDTO">
+        <include refid="selectEthWalletVo"/>
+        WHERE
+        addr = #{addr}
+        and token_addr = #{tokenAddr}
+        and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectByUserOpenIdAndTokenAddrAndWalletType" resultMap="EthWalletDTO">
+        <include refid="selectEthWalletVo"/>
+        WHERE
+        user_open_id = #{userOpenId}
+        and token_addr = #{tokenAddr}
+        and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectByAddrAndWalletType" resultMap="EthWalletDTO">
+        <include refid="selectEthWalletVo"/>
+        WHERE
+        addr = #{addr}
+        and wallet_type = #{walletType}
+    </select>
+
+    <select id="selectByUserOpenIdAndWalletType" resultMap="EthWalletDTO">
+        <include refid="selectEthWalletVo"/>
+        WHERE
+        user_open_id = #{userOpenId}
+        and wallet_type = #{walletType}
+    </select>
+
+    <update id="updateBalanceByUserIdInRowLock">
+        UPDATE
+        <include refid="tableName"/>
+        wallet
+        SET
+        wallet.balance = wallet.balance + #{balance},
+        wallet.free_balance = wallet.free_balance + #{freeBalance},
+        wallet.freeze_balance = wallet.freeze_balance + #{freezeBalance},
+        wallet.update_time = #{modifyTime}
+        WHERE
+        user_open_id = #{userOpenId}
+        AND token_addr = #{tokenAddr}
+        AND wallet_type = #{walletType}
+        AND wallet.balance + #{balance} >= 0
+        AND wallet.free_balance + #{freeBalance} >= 0
+        AND wallet.freeze_balance + #{freezeBalance} >= 0
+    </update>
+
+    <update id="updateBalanceByAddrInRowLock">
+        UPDATE
+        <include refid="tableName"/>
+        wallet
+        SET
+        wallet.balance = wallet.balance + #{balance},
+        wallet.free_balance = wallet.free_balance + #{freeBalance},
+        wallet.freeze_balance = wallet.freeze_balance + #{freezeBalance},
+        wallet.update_time = #{modifyTime}
+        WHERE
+        addr = #{addr}
+        AND token_addr = #{tokenAddr}
+        AND wallet_type = #{walletType}
+        AND wallet.balance + #{balance} >= 0
+        AND wallet.free_balance + #{freeBalance} >= 0
+        AND wallet.freeze_balance + #{freezeBalance} >= 0
+    </update>
+
+    <select id="getBalanceByIdAndTypes" resultMap="WalletBalanceDTO">
+        SELECT token_symbol, wallet_type, free_balance, freeze_balance
+        FROM <include refid="tableName"/>
+        WHERE user_open_id = #{userOpenId}
+        <if test="walletTypes != null">
+            AND wallet_type IN
+            <foreach item="wt" collection="walletTypes" open="(" separator="," close=")">
+                #{wt}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getAllBalanceByToken" resultType="java.math.BigDecimal">
+        SELECT SUM(balance)
+        FROM <include refid="tableName"/>
+        WHERE user_open_id = #{userOpenId} AND token_symbol = #{coinName}
+    </select>
+
+    <select id="getBalanceByIdAndTypesBatch" resultMap="WalletBalanceBatchDTO">
+        SELECT user_open_id, token_symbol, wallet_type, free_balance, freeze_balance
+        FROM <include refid="tableName"/>
+        WHERE
+        <if test="walletTypes != null">
+            wallet_type IN
+            <foreach item="wt" collection="walletTypes" open="(" separator="," close=")">
+                #{wt}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

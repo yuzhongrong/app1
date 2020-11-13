@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.teth.mapper.EthBlockNumberMapper">
+    <resultMap id="EthBlockNumberMap" type="com.blockchain.server.teth.entity.EthBlockNumber">
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="blockNumber" column="block_number"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="tableName">dapp_teth_block_number</sql>
+
+    <select id="selectMaxBlockNumber" resultType="BigInteger">
+        SELECT block_number FROM
+        <include refid="tableName"/>
+        ORDER BY block_number DESC LIMIT 1
+    </select>
+
+    <select id="selectMinBlockNumber" resultType="BigInteger">
+        SELECT block_number FROM
+        <include refid="tableName"/>
+        ORDER BY block_number ASC LIMIT 1
+    </select>
+
+</mapper>

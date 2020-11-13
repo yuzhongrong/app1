@@ -1,0 +1,42 @@
+##邮件发送方的email
+#email:
+#  fromAccount: mailmaster165@163.com
+#  #主机名 126邮箱为smtp.126.com,163邮箱为smtp.163.com，QQ为smtp.qq.com
+#  hostName: smtp.163.com
+#  #邮件发送方的授权码
+#  authCode: fkex123coin456
+#  #邮件发送方的用户名
+#  userName: FKEX
+#  #过期时间，单位：分钟,默认30分钟
+#  timeout: 30
+#  #是否关闭邮箱 关闭(true) | 开启(false)
+#  closed: false
+
+
+#邮件发送方的email
+#email:
+#  fromAccount: duobitserver@gmail.com
+#  #主机名 126邮箱为smtp.126.com,163邮箱为smtp.163.com，QQ为smtp.qq.com
+#  hostName: smtp.gmail.com
+#  #邮件发送方的授权码
+#  authCode: sdomltgvqyfyubud
+#  #邮件发送方的用户名
+#  userName: duobitserver@gmail.com
+#  #过期时间，单位：分钟,默认30分钟
+#  timeout: 30
+#  #是否关闭邮箱 关闭(true) | 开启(false)
+#  closed: false
+
+
+email:
+  fromAccount: 13632886300@163.com
+  #主机名 126邮箱为smtp.126.com,163邮箱为smtp.163.com，QQ为smtp.qq.com
+  hostName: smtp.163.com
+  #邮件发送方的授权码
+  authCode: YWAXNQGFTJMCSAVM
+  #邮件发送方的用户名
+  userName: duobit
+  #过期时间，单位：分钟,默认30分钟
+  timeout: 30
+  #是否关闭邮箱 关闭(true) | 开启(false)
+  closed: false

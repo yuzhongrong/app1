@@ -1,0 +1,25 @@
+## 测试网点
+#rpc_url: https://api.shasta.trongrid.io/
+
+# tron正式网点
+rpc_url: https://api.trongrid.io/
+version: v1/
+wallet: wallet/
+accounts: accounts/
+contracts: contracts/
+events: /events
+assets: assets/
+transactions: /transactions
+create_transaction: createtransaction
+sign: gettransactionsign
+broadcast: broadcasttransaction
+get_transaction: gettransactionbyid
+create_account_address: generateaddress
+create_account: createaccount
+get_now_block: getnowblock
+get_block_by_num: getblockbynum
+get_block_by_limit_next: getblockbylimitnext
+
+# 控制模块内定时器是否启动时打开
+schedule:
+  open: true

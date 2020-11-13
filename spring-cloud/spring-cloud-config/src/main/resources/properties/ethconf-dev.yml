@@ -1,0 +1,24 @@
+#以太坊连接配置
+ethconfig:
+  emptyAddress: "0x0000000000000000000000000000000000000000"
+  os: "windows" # ['unix','windows']
+  urlType: "rpc" #['rpc','ipc']
+  #  url: "https://ropsten.infura.io/mew" #测试网络
+  url: "https://mainnet.infura.io/v3/024e6f68b55947cda434078975898463"
+
+#以太坊钱包参数配置
+wallert:
+  eth: # ETH燃烧费用设置
+    gasPrice: 50000000000
+    gasLimit: 100000
+  token:   # ETH代币燃烧费用设置
+    gasPrice: 50000000000
+    gasLimit: 100000
+
+## 控制模块内定时器是否启动时打开
+#schedule:
+#  open: false
+
+# 控制模块内定时器是否启动时打开
+schedule:
+  open: true

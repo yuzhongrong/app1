@@ -1,0 +1,28 @@
+#btc:
+#  #测试网
+#  rpc:
+#    user: admin
+#    password: admin123
+#    url: http://120.79.243.120:8332
+#  #测试节点USDT代币id
+#  usdt_property_id: 1
+##  #正式节点USDT代币id
+##  usdt_property_id: 31
+#
+## 控制模块内定时器是否启动时打开
+#schedule:
+#  open: false
+
+
+btc:
+  #正式网
+  rpc:
+    user: eLEYRinA
+    password: Fk8UzEEJZXvccdff94ZjAuVPxUCGuFag
+    url: http://184.105.242.147:8090
+  #正式节点USDT代币id
+  usdt_property_id: 31
+
+# 控制模块内定时器是否启动时打开
+schedule:
+  open: true

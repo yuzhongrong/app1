@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://172.16.1.42:3306/exchange?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: exchange
+    password: wWw.duob1t.com~
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      initial-size: 10
+      max-active: 200
+      min-idle: 0
+      max-wait: -1
+      # 配置 StatFilter
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 2000
+          enabled: true
+      # druid 监控  访问/${context-path}/druid
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin123
+
+mybatis:
+  #mapper 文件路径
+  mapper-locations: classpath*:mapper/*.xml
+  cacheEnabled: false
+  configuration:
+    #驼峰转换
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  auto-dialect: mysql
+  #设置为true时，如果 输入值<0，则查询第0条；输入值>最大页数，则查询最后一页
+  reasonable: false
+  support-methods-arguments: true

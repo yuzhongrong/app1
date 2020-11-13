@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.user.mapper.UserMainMapper">
+	<resultMap id="BaseMap" type="com.blockchain.server.user.entity.UserMain">
+		<result property="modifyTime" column="modify_time"/>
+		<result property="mobilePhone" column="mobile_phone"/>
+		<result property="createTime" column="create_time"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="internationalCode" column="international_code"/>
+		<result property="international" column="international"/>
+		<result property="id" column="id"/>
+	</resultMap>
+	<sql id="table_name">dapp_u_user_main</sql>
+
+	<select id="selectByMobilePhone" resultMap="BaseMap">
+		select * from <include refid="table_name" /> where mobile_phone = #{mobilePhone}
+	</select>
+
+	<select id="listByIds" resultMap="BaseMap">
+		select * from <include refid="table_name" /> where id in
+		<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
+
+</mapper>

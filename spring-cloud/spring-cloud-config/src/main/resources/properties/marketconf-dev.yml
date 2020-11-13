@@ -1,0 +1,9 @@
+market:
+  coinbase:
+    USD: https://api.coinbase.com/v2/exchange-rates?currency=USD
+  kraken:
+    url: https://api.kraken.com/0/public/Trades?pair=
+    currencys: "{\"USDT\":\"USDTZUSD\"}"
+  huobi:
+    url: https://api.huobi.pro/market/history/trade?size=5&symbol=
+    currencys: "[[\"trxusdt\",\"TRX\",\"USDT\"],[\"trxeth\",\"TRX\",\"ETH\"],[\"trxbtc\",\"TRX\",\"BTC\"],[\"ltcbtc\",\"LTC\",\"BTC\"],[\"ltcusdt\",\"LTC\",\"USDT\"],[\"btcusdt\",\"BTC\",\"USDT\"],[\"ethusdt\",\"ETH\",\"USDT\"],[\"eosusdt\",\"EOS\",\"USDT\"],[\"ethbtc\",\"ETH\",\"BTC\"],[\"eosbtc\",\"EOS\",\"BTC\"],[\"eoseth\",\"EOS\",\"ETH\"]]"
