@@ -102,6 +102,7 @@ public class CurrencyMarketServiceImpl implements CurrencyMarketService {
      */
     @Override
     public CurrencyMarketDTO save(String coinName, String unitName, BigDecimal amount, BigDecimal total, Long timestamp, String tradingType, BigDecimal tradingVolume) {
+
         String currencyPair = coinName + "-" + unitName;
         //检测币对是否合法
         checkCurrency(currencyPair);
@@ -110,6 +111,7 @@ public class CurrencyMarketServiceImpl implements CurrencyMarketService {
         currencyMarket.setTotal(total);
         currencyMarket.setAmount(amount);
         currencyMarket.setTimestamp(timestamp);
+        try {
         //保存新数据
         save(currencyMarket);
         CurrencyMarketDTO dto = new CurrencyMarketDTO();
@@ -121,8 +123,11 @@ public class CurrencyMarketServiceImpl implements CurrencyMarketService {
         sendHistoryMsg(dto, tradingType);
         //添加缓存数据，发送行情变动信息
         setMarketCache(dto);
-
-        return dto;
+            return dto;
+        }catch (Exception ex){
+            LOG.error("推送k线发生异常",ex);
+        }
+       return  null;
     }
 
     @Override
