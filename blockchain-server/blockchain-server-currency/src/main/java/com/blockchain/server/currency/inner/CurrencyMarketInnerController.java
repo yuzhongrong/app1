@@ -33,7 +33,7 @@ public class CurrencyMarketInnerController {
             @ApiParam(CurrencyMarketInnerApi.Save.METHOD_API_TIMESTAMP) Long timestamp,
             @ApiParam(CurrencyMarketInnerApi.Save.METHOD_API_TRADINGTYPE) String tradingType){
         currencyMarketService.save(coinName, unitName, amount, total, timestamp,tradingType,null);
-        return ResultDTO.requstSuccess(null);
+        return ResultDTO.requstSuccess();
     }
 
 }
