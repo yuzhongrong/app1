@@ -9,6 +9,7 @@ import com.blockchain.server.teth.entity.EthToken;
 import com.blockchain.server.teth.mapper.EthBlockNumberMapper;
 import com.blockchain.server.teth.web3j.IWalletWeb3j;
 import com.blockchain.server.teth.service.*;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import java.util.regex.Pattern;
 @Service
 public class EthBlockNumberServiceImpl implements IEthBlockNumberService {
 
-    static final String GAS_TOKENADDR = "eth"; // 默认手续费币种
+    static final String GAS_TOKENADDR = "teth"; // 默认手续费币种
     static final String REGEX = "^0xa9059cbb.+";   // 转账正则判断
     static final Pattern PATTERN = Pattern.compile("^(.+)(.{64})(.{64}$)");     // input 数据解析
     static final BigInteger BIAS_CURRENT = BigInteger.valueOf(20);
