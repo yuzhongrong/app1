@@ -26,6 +26,7 @@ import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,6 +181,8 @@ public class WalletWeb3jImpl extends BaseWeb3jImpl implements IWalletWeb3j {
             EthCall ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
             List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
             return (BigInteger) results.get(0).getValue();
+
+
         } catch (Exception e) {
             throw new EthWalletException(EthWalletEnums.SERVER_IS_TOO_BUSY);
         }
