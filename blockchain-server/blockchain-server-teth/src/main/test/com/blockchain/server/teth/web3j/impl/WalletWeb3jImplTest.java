@@ -17,6 +17,7 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.ipc.WindowsIpcService;
+import org.web3j.utils.Convert;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -95,6 +96,27 @@ public class WalletWeb3jImplTest {
         System.out.println("---------获取合约代币余额成功-->" + balance.toPlainString());
 
     }
+
+
+    @Test
+    public  void getBalance( ) {
+
+        try {
+
+            String address="0x7e5b98021d862c9d41290d767af6b1f4033e454e";
+            Web3j web3j = Web3j.build(new HttpService("https://ropsten.infura.io/v3/bfc1481597114b739f5697d15c043d37"));
+            String balance= Convert.fromWei(new BigDecimal(web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance()), Convert.Unit.ETHER).toPlainString();
+            System.out.println("----eth-balance---->"+balance);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        // 格式转换 WEI(币种单位) --> ETHER
+
+    }
+
 
 
 
