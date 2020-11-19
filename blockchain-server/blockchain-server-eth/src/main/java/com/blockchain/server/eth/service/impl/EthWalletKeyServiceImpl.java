@@ -102,6 +102,10 @@ public class EthWalletKeyServiceImpl implements IEthWalletKeyService {
         Set<String> addrs = RedisWalletAddrUtil.getWalletAddrs(redisTemplate);
         if (addrs == null || addrs.size() == 0) {
             addrs = ethWalletKeyMapper.selectAllAddrs();
+            if(addrs.isEmpty()){
+               //如果为空则不设置redis
+              return addrs;
+            }
             RedisWalletAddrUtil.setWalletAddrs(addrs, redisTemplate);
         }
         return addrs;
