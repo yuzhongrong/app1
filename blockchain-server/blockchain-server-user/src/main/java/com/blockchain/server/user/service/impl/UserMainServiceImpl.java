@@ -131,22 +131,22 @@ public class UserMainServiceImpl implements UserMainService {
             e.printStackTrace();
         }
         //目前btc的rpc存在问题 暂时屏蔽
-//        ResultDTO btcResult = btcFeign.createWallet(userId);
-//        if (btcResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
-//            throw new RPCException(btcResult.getCode(), btcResult.getMsg());
-//        }
-//        LOG.info("初始化btc钱包成功");
+        ResultDTO btcResult = btcFeign.createWallet(userId);
+        if (btcResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
+            throw new RPCException(btcResult.getCode(), btcResult.getMsg());
+        }
+        LOG.info("初始化btc钱包成功");
 //        ResultDTO ltcResult = ltcFeign.createWallet(userId);
 //        if (ltcResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
 //            throw new RPCException(ltcResult.getCode(), ltcResult.getMsg());
 //        }
 //        LOG.info("初始化ltc钱包成功");
 
-        ResultDTO tethResult = tethFeign.initWallets(userId);
-        if (tethResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
-            throw new RPCException(tethResult.getCode(), tethResult.getMsg());
-        }
-        LOG.info("初始化teth钱包成功");
+//        ResultDTO tethResult = tethFeign.initWallets(userId);
+//        if (tethResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
+//            throw new RPCException(tethResult.getCode(), tethResult.getMsg());
+//        }
+//        LOG.info("初始化teth钱包成功");
 
         return user;
     }
