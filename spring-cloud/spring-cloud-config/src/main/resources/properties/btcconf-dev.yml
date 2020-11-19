@@ -15,11 +15,11 @@
 
 
 btc:
-  #正式网
+  #主网
   rpc:
-    user: eLEYRinA
-    password: Fk8UzEEJZXvccdff94ZjAuVPxUCGuFag
-    url: http://184.105.242.147:8090
+    user: btcrpc
+    password: EA_R@c)rkY62
+    url: http://184.105.242.147:18080
   #正式节点USDT代币id
   usdt_property_id: 31
 
