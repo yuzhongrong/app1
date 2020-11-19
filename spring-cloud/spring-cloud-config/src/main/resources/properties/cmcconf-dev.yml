@@ -1,0 +1,24 @@
+#ltc:
+#  #测试网
+#  rpc:
+#    user: admin
+#    password: admin123
+#    url: http://120.79.243.120:8332
+#
+## 控制模块内定时器是否启动时打开
+#schedule:
+#  open: false
+
+
+cmc:
+  #正式网
+  rpc:
+    user: tst_rpc
+    password: tst888
+    url: http://43.249.31.54:9888
+  #正式节点USDT代币id
+  usdt_property_id: 31
+
+# 控制模块内定时器是否启动时打开
+schedule:
+  open: true

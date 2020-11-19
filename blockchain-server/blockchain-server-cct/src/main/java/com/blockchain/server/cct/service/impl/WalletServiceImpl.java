@@ -7,6 +7,7 @@ import com.blockchain.server.cct.common.enums.CctEnums;
 import com.blockchain.server.cct.common.exception.CctException;
 import com.blockchain.server.cct.feign.*;
 import com.blockchain.server.cct.service.WalletService;
+import feign.Feign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class WalletServiceImpl implements WalletService {
     @Autowired
     private TETHFeign tethFeign;
 
+    @Autowired
+    private CMCFeign cmcFeign;
+
     //主网标识
     private static final String BTC_NET = "BTC";
     private static final String ETH_NET = "ETH";
@@ -41,7 +45,7 @@ public class WalletServiceImpl implements WalletService {
     private static final String LTC_NET = "LTC";
     private static final String TRX_NET = "TRX";
     private static final String TETH_NET = "TETH";
-
+    private static final String CMC_NET = "CMC";
     @Override
     @Transactional
     public void handleBalance(String userId, String publishId, String tokenName, String coinNet, BigDecimal freeBalance, BigDecimal freezeBalance) {
@@ -73,6 +77,10 @@ public class WalletServiceImpl implements WalletService {
 
             case TETH_NET:
                 tethFeign.order(order);
+                break;
+
+            case CMC_NET:
+                cmcFeign.order(order);
                 break;
             default:
                 LOG.error("更新余额失败，钱包处理出现未知主网标识！");
@@ -111,6 +119,9 @@ public class WalletServiceImpl implements WalletService {
                 break;
             case TETH_NET:
                 tethFeign.change(change);
+
+            case CMC_NET:
+                cmcFeign.change(change);
             default:
                 LOG.error("扣款或加钱失败，钱包处理出现未知主网标识！");
                 throw new CctException(CctEnums.PUBLISH_ORDER_WALLET_ERROR);

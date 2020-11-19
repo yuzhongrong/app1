@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cmc.mapper.WalletOutMapper">
+	<resultMap id="WalletOutMap" type="com.blockchain.server.cmc.dto.WalletOutDTO">
+		<result property="privateKey" column="private_key"/>
+		<result property="password" column="password"/>
+		<result property="tokenId" column="token_id"/>
+		<result property="tokenSymbol" column="token_symbol"/>
+		<result property="remark" column="remark"/>
+		<result property="id" column="id"/>
+		<result property="addr" column="addr"/>
+	</resultMap>
+
+</mapper>

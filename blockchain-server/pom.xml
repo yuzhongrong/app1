@@ -28,6 +28,7 @@
         <module>blockchain-server-tron</module>
         <module>blockchain-server-quantized</module>
         <module>blockchain-server-teth</module>
+        <module>blockchain-server-cmc</module>
 
 
     </modules>

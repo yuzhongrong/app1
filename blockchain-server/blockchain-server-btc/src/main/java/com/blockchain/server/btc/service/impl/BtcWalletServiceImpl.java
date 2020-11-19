@@ -92,7 +92,7 @@ public class BtcWalletServiceImpl implements BtcWalletService {
                 btcWallet.setWalletType(btcApplicationDTO.getAppId());
                 btcWallet.setCreateTime(new Date());
                 btcWallet.setUpdateTime(btcWallet.getCreateTime());
-
+                LOG.info("******btcWallet******"+btcWallet.toString());
                 int count = btcWalletMapper.insertSelective(btcWallet);
                 if (count != 1) {
                     throw new BtcException(BtcEnums.CREATE_WALLET_ERROR);

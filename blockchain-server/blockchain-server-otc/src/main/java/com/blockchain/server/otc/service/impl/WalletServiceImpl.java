@@ -38,6 +38,10 @@ public class WalletServiceImpl implements WalletService {
     private TETHFeign tethFeign;
 
     @Autowired
+    private CMCFeign cmcFeign;
+
+
+    @Autowired
     private CoinService coinService;
 
     //主网标识
@@ -48,6 +52,9 @@ public class WalletServiceImpl implements WalletService {
     private static final String TRX_NET = "TRX";
 
     private static final String TETH_NET = "TETH";
+
+    private static final String CMC_NET = "CMC";
+
 
     @Override
     @Transactional
@@ -81,6 +88,12 @@ public class WalletServiceImpl implements WalletService {
             case TETH_NET:
                 tethFeign.order(order);
                 break;
+
+
+            case CMC_NET:
+                cmcFeign.order(order);
+                break;
+
             default:
                 LOG.error("更新余额失败，钱包处理出现未知主网标识：" + coin.getCoinNet());
                 throw new OtcException(OtcEnums.WALLET_COIN_NET_ERROR);
@@ -120,6 +133,12 @@ public class WalletServiceImpl implements WalletService {
             case TETH_NET:
                 tethFeign.change(change);
                 break;
+
+
+            case CMC_NET:
+                cmcFeign.change(change);
+                break;
+
             default:
                 LOG.error("扣款或加钱失败，钱包处理出现未知主网标识：" + coin.getCoinNet());
                 throw new OtcException(OtcEnums.WALLET_COIN_NET_ERROR);

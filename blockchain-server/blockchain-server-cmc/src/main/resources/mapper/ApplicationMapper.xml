@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cmc.mapper.ApplicationMapper">
+	<resultMap id="ApplicationMap" type="com.blockchain.server.cmc.dto.ApplicationDTO">
+		<result property="appName" column="app_name"/>
+		<result property="appId" column="app_id"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_cmc_application</sql>
+
+	<select id="listApplication" resultMap="ApplicationMap">
+		SELECT * FROM <include refid="tableName"/>
+	</select>
+
+</mapper>

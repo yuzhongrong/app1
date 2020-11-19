@@ -68,6 +68,9 @@ public class UserMainServiceImpl implements UserMainService {
     @Autowired
     private TEthFeign tethFeign;
 
+    @Autowired
+    private CmcFeign cmcFeign;
+
 
 
 
@@ -130,7 +133,7 @@ public class UserMainServiceImpl implements UserMainService {
             LOG.info("初始化trx钱包失败");
             e.printStackTrace();
         }
-        //目前btc的rpc存在问题 暂时屏蔽
+
         ResultDTO btcResult = btcFeign.createWallet(userId);
         if (btcResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
             throw new RPCException(btcResult.getCode(), btcResult.getMsg());
@@ -147,6 +150,14 @@ public class UserMainServiceImpl implements UserMainService {
 //            throw new RPCException(tethResult.getCode(), tethResult.getMsg());
 //        }
 //        LOG.info("初始化teth钱包成功");
+
+
+        ResultDTO cmcResult = cmcFeign.createWallet(userId);
+        if (cmcResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
+            throw new RPCException(cmcResult.getCode(), cmcResult.getMsg());
+        }
+        LOG.info("初始化cmc钱包成功");
+
 
         return user;
     }

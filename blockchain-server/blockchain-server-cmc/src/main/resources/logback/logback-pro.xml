@@ -31,8 +31,8 @@
         </encoder>
     </appender>
 
-    <!-- 包名debug -->
-    <logger name="com.blockchain" level="debug"/>
+    <!-- 包名 -->
+    <logger name="com.blockchain" level="info"/>
 
     <root level="info">
         <appender-ref ref="console" />
