@@ -4,7 +4,7 @@ ethconfig:
   os: "windows" # ['unix','windows']
   urlType: "rpc" #['rpc','ipc']
   #  url: "https://ropsten.infura.io/mew" #测试网络
-  url: "https://mainnet.infura.io/v3/024e6f68b55947cda434078975898463"
+  url: "https://ropsten.infura.io/v3/bfc1481597114b739f5697d15c043d37"
 
 #以太坊钱包参数配置
 wallert:
