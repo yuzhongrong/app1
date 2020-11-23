@@ -1,6 +1,7 @@
 package com.blockchain.server.cmc;
 
 import com.blockchain.server.base.BaseConf;
+import com.blockchain.server.cmc.entity.BtcApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -18,7 +19,7 @@ public class CmcApplication {
      */
     private static void initSystemConfig() {
         System.setProperty("log.root", "ALL,CONSOLE,info,error,DEBUG");
-        System.setProperty("service.id", "dapp-ltc-server");
+        System.setProperty("service.id", "dapp-cmc-server");
     }
 
 //    @Bean
@@ -26,14 +27,14 @@ public class CmcApplication {
 //        return new Docket(DocumentationType.SWAGGER_2)
 //                .apiInfo(apiInfo())
 //                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.blockchain.server.ltc.controller"))
+//                .apis(RequestHandlerSelectors.basePackage("com.blockchain.server.btc.controller"))
 //                .paths(PathSelectors.any())
 //                .build();
 //    }
 //
 //    private ApiInfo apiInfo() {
 //        return new ApiInfoBuilder()
-//                .title("莱特币托管账户系统（dapp-eth-server）RESTful APIs")
+//                .title("比特币托管账户系统（dapp-eth-server）RESTful APIs")
 //                .description("")
 //                .termsOfServiceUrl("")
 //                .version("1.0")

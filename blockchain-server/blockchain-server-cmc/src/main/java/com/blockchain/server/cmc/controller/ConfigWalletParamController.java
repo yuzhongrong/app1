@@ -1,7 +1,7 @@
 package com.blockchain.server.cmc.controller;
 
 import com.blockchain.common.base.dto.ResultDTO;
-import com.blockchain.server.cmc.common.constants.TokenConstans;
+import com.blockchain.server.cmc.common.constants.BtcConstans;
 import com.blockchain.server.cmc.controller.api.ConfigWalletParamApi;
 import com.blockchain.server.cmc.service.ConfigWalletParamService;
 import io.swagger.annotations.Api;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = ConfigWalletParamApi.MARKET_CONTROLLER_API)
+@Api(ConfigWalletParamApi.MARKET_CONTROLLER_API)
 @RestController
 @RequestMapping("/walletParam")
 public class ConfigWalletParamController {
@@ -22,7 +22,7 @@ public class ConfigWalletParamController {
 
     @ApiOperation(value = ConfigWalletParamApi.GetGasConfig.METHOD_API_NAME, notes = ConfigWalletParamApi.GetGasConfig.METHOD_API_NOTE)
     @GetMapping("/getGasConfig")
-    public ResultDTO getGasConfig(@ApiParam(ConfigWalletParamApi.GetGasConfig.TOKENSYMBOL) @RequestParam(value = "tokenSymbol", defaultValue = TokenConstans.TOKEN_SYMBOL) String tokenSymbol) {
+    public ResultDTO getGasConfig(@ApiParam(ConfigWalletParamApi.GetGasConfig.TOKENSYMBOL) @RequestParam(value = "tokenSymbol", defaultValue = BtcConstans.BTC_SYMBOL) String tokenSymbol) {
         return ResultDTO.requstSuccess(walletParamService.getGasConfig(tokenSymbol));
     }
 

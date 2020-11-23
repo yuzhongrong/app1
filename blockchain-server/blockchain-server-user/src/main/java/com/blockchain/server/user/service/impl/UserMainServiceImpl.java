@@ -118,11 +118,11 @@ public class UserMainServiceImpl implements UserMainService {
             throw new RPCException(ethResult.getCode(), ethResult.getMsg());
         }
         LOG.info("初始化eth钱包成功");
-        ResultDTO eosResult = eosFeign.initEosWallet(userId);
-        if (eosResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
-            throw new RPCException(eosResult.getCode(), eosResult.getMsg());
-        }
-        LOG.info("初始化eos钱包成功");
+//        ResultDTO eosResult = eosFeign.initEosWallet(userId);
+//        if (eosResult.getCode() != BaseConstant.REQUEST_SUCCESS) {
+//            throw new RPCException(eosResult.getCode(), eosResult.getMsg());
+//        }
+//        LOG.info("初始化eos钱包成功");
         try {
             ResultDTO trxResult = trxFeign.initTronWallet(userId);
             if (trxResult.getCode() != BaseConstant.REQUEST_SUCCESS) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cmc.mapper.BtcBlockNumberMapper">
+	<resultMap id="BtcBlockNumberMap" type="com.blockchain.server.cmc.dto.BtcBlockNumberDTO">
+		<result property="createTime" column="create_time"/>
+		<result property="blockNumber" column="block_number"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="status" column="status"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_cmc_block_number</sql>
+
+	<select id="selectBigest" resultType="java.lang.Integer">
+		SELECT MAX(block_number)
+		FROM <include refid="tableName"/>
+	</select>
+
+	<select id="listByStatus" resultMap="BtcBlockNumberMap">
+		SELECT block_number, create_time
+		FROM <include refid="tableName"/>
+		WHERE status = #{status}
+		order by block_number asc
+	</select>
+
+</mapper>

@@ -2,7 +2,7 @@ package com.blockchain.server.cmc.service.impl;
 
 import com.blockchain.common.base.dto.GasDTO;
 import com.blockchain.common.base.util.JsonUtils;
-import com.blockchain.server.cmc.common.constants.ConfigConstants;
+import com.blockchain.server.cmc.common.constants.BtcConfigConstants;
 import com.blockchain.server.cmc.entity.ConfigWalletParam;
 import com.blockchain.server.cmc.mapper.ConfigWalletParamMapper;
 import com.blockchain.server.cmc.service.ConfigWalletParamService;
@@ -22,9 +22,9 @@ public class ConfigWalletParamServiceImpl implements ConfigWalletParamService {
     @Override
     public GasDTO getGasConfig(String tokenSymbol) {
         ConfigWalletParam where = new ConfigWalletParam();
-        where.setModuleType(ConfigConstants.MODULE_TYPE);
-        where.setStatus(ConfigConstants.STATUS_NORMAL);
-        String paramName = ConfigConstants.GAS_CONFIG + tokenSymbol;
+        where.setModuleType(BtcConfigConstants.MODULE_TYPE);
+        where.setStatus(BtcConfigConstants.STATUS_NORMAL);
+        String paramName = BtcConfigConstants.GAS_CONFIG + tokenSymbol;
         where.setParamName(paramName.toLowerCase());
         ConfigWalletParam config = configMapper.selectOne(where);
         if (config == null) return null;

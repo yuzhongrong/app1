@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cmc.mapper.BtcTokenMapper">
+	<resultMap id="BtcTokenMap" type="com.blockchain.server.cmc.dto.BtcTokenDTO">
+		<result property="descr" column="descr"/>
+		<result property="tokenId" column="token_id"/>
+		<result property="tokenSymbol" column="token_symbol"/>
+		<result property="issueTime" column="issue_time"/>
+		<result property="totalSupply" column="total_supply"/>
+		<result property="totalCirculation" column="total_circulation"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_cmc_token</sql>
+
+	<select id="listToken" resultMap="BtcTokenMap">
+		SELECT * FROM <include refid="tableName"/>
+	</select>
+
+	<select id="selectTokenById" resultMap="BtcTokenMap">
+		SELECT * FROM <include refid="tableName"/>
+		WHERE token_id = #{tokenId}
+	</select>
+
+</mapper>

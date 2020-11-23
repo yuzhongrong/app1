@@ -17,6 +17,6 @@ import java.util.List;
 @FeignClient("dapp-ore-server")
 public interface OreFegin {
 
-    @PostMapping("/ore/inner/pushUserWallet")
+    @PostMapping("/inner/pushUserWallet")
     ResultDTO pushUserWallet(@RequestParam("type") String type, @RequestBody List<WalletBalanceBatchDTO> userWalletList);
 }

@@ -1,7 +1,7 @@
 package com.blockchain.server.cmc.common.config;
 
-import com.blockchain.server.cmc.schedule.RechargeCoinListenerTimer;
-import com.blockchain.server.cmc.schedule.WalletTimer;
+import com.blockchain.server.cmc.schedule.RechargeBtcAndUsdtBlockTimer;
+import com.blockchain.server.cmc.schedule.WallertTimerTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -26,12 +26,13 @@ public class ScheduleConfig {
     private boolean scheduleOpen;
 
     @Autowired
-    private RechargeCoinListenerTimer rechargeCoinListenerTimer;
+    private RechargeBtcAndUsdtBlockTimer rechargeBtcAndUsdtBlockTimer;
     @Autowired
-    private WalletTimer walletTimer;
+    private WallertTimerTask wallertTimerTask;
 
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
     private Map<String, ScheduledFuture> futureMap;
 
     @Bean
@@ -45,9 +46,9 @@ public class ScheduleConfig {
             @Override
             public void run(ApplicationArguments args) throws Exception {
                 if (scheduleOpen) {
-                    schedule(() -> rechargeCoinListenerTimer.rechargeCoinListener(), RechargeCoinListenerTimer.RECHARGE_COIN_LISTENER_CRON);
-                    schedule(() -> rechargeCoinListenerTimer.crawlOmitTxIn(), RechargeCoinListenerTimer.CRAWL_OMIT_TX_IN_CRON);
-                    schedule(() -> walletTimer.crawlTxOut(), WalletTimer.CRAWL_TX_OUT_CRON);
+                    schedule(() -> rechargeBtcAndUsdtBlockTimer.rechargeBtcAndUsdtBlock(), RechargeBtcAndUsdtBlockTimer.RECHARGE_BTC_AND_USDT_BLOCK_CRON);
+                    schedule(() -> rechargeBtcAndUsdtBlockTimer.crawlOmitTxIn(), RechargeBtcAndUsdtBlockTimer.CRAWL_OMIT_TX_IN_CRON);
+                    schedule(() -> wallertTimerTask.crawlTxOut(), WallertTimerTask.CRAWL_TX_OUT_CRON);
                 }
             }
         };

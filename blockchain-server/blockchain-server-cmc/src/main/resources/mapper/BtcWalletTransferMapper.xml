@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blockchain.server.cmc.mapper.BtcWalletTransferMapper">
+	<resultMap id="BtcWalletTransferMap" type="com.blockchain.server.cmc.dto.BtcWalletTransferDTO">
+		<result property="toAddr" column="to_addr"/>
+		<result property="amount" column="amount"/>
+		<result property="tokenId" column="token_id"/>
+		<result property="tokenSymbol" column="token_symbol"/>
+		<result property="remark" column="remark"/>
+		<result property="gasTokenName" column="gas_token_name"/>
+		<result property="gasTokenSymbol" column="gas_token_symbol"/>
+		<result property="transferType" column="transfer_type"/>
+		<result property="gasTokenType" column="gas_token_type"/>
+		<result property="id" column="id"/>
+		<result property="fromAddr" column="from_addr"/>
+		<result property="hash" column="hash"/>
+		<result property="gasPrice" column="gas_price"/>
+		<result property="status" column="status"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+	<sql id="tableName">dapp_cmc_wallet_transfer</sql>
+
+	<select id="selectIdByTxIdAndType" resultType="java.lang.String">
+		SELECT id
+		FROM <include refid="tableName"/>
+		WHERE hash = #{hash} AND transfer_type = #{transferType}
+	</select>
+
+	<select id="selectTransfer" resultMap="BtcWalletTransferMap">
+		SELECT hash, from_addr, to_addr, amount, token_id, token_symbol, gas_price, gas_token_type, gas_token_name, gas_token_symbol, transfer_type, status, remark, create_time, update_time
+		FROM <include refid="tableName"/>
+		WHERE ( from_addr = #{addr} OR to_addr = #{addr} ) AND token_id = #{tokenId}
+		ORDER BY create_time DESC
+	</select>
+
+</mapper>
