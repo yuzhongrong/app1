@@ -9,7 +9,7 @@ public class BtcBlockRedisUtils {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private static final String ETH_BLOCKCHAIN_OPT_HASH = "btc:blockchain:opt:block";
+    private static final String ETH_BLOCKCHAIN_OPT_HASH = "cmc:blockchain:opt:block";
 
     /**
      * 根据区块高度，获取爬取的次数

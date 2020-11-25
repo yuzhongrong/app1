@@ -16,7 +16,7 @@ public class CommonConstants {
     /**
      * 涨跌榜长度
      */
-    public final static int TOP_SIZE = 12;
+    public final static int TOP_SIZE = 15;
 
     /**
      * 历史成交单长度
