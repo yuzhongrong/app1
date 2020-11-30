@@ -22,6 +22,8 @@ public class BtcApplicationServiceImpl implements BtcApplicationService {
 
     @Override
     public void checkWalletType(String walletType) {
+        if(walletType.equalsIgnoreCase("POOL"))return;
+
         List<BtcApplicationDTO> list = listApplication();
         for (BtcApplicationDTO row : list) {
             if (walletType.equalsIgnoreCase(row.getAppId())) {

@@ -16,7 +16,7 @@ import java.util.Map;
  * @date 2019/2/16 15:54
  */
 @Component
-public class BtcOmniRpcClient {
+public class BtcRpcClient {
 
     private Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -24,7 +24,7 @@ public class BtcOmniRpcClient {
     public String RPC_USER; //验证用户名
     @Value("${btc.rpc.password}")
     public String RPC_PASSWORD; //验证密码
-    @Value("${btc.rpc.omni}")
+    @Value("${btc.rpc.url}")
     public String RPC_URL; //验证地址
 
     // 比特币RPC身份认证

@@ -24,7 +24,7 @@ public class BtcUtils {
     private Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private BtcOmniRpcClient client;
+    private BtcRpcClient client;
 
     /**
      * 生成新的钱包地址

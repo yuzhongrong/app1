@@ -122,6 +122,7 @@ public class WalletServiceImpl implements WalletService {
 
             case CMC_NET:
                 cmcFeign.change(change);
+                break;
             default:
                 LOG.error("扣款或加钱失败，钱包处理出现未知主网标识！");
                 throw new CctException(CctEnums.PUBLISH_ORDER_WALLET_ERROR);

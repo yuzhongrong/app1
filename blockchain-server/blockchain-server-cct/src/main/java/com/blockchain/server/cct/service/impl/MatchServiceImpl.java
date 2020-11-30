@@ -622,7 +622,12 @@ public class MatchServiceImpl implements MatchService, ITxTransaction {
         detail.setCoinName(coinName);
         detail.setTradingType(tradingType);
         detail.setCreateTime(new Date());
-        detailService.insertTradingDetail(detail);
+        try{
+            detailService.insertTradingDetail(detail);
+        }catch (Exception ex){
+         LOG.error(ex.getMessage());
+        }
+
         return uuid;
     }
 

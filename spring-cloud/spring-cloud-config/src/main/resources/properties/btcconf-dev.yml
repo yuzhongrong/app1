@@ -20,6 +20,7 @@ btc:
     user: btcrpc
     password: EA_R@c)rkY62
     url: http://184.105.242.147:18080
+    omni: http://184.105.242.154:8333
   #正式节点USDT代币id
   usdt_property_id: 31
 
