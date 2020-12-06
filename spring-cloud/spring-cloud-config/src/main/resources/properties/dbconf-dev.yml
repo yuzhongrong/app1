@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://172.16.1.42:3306/exchange?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://172.16.1.6:3306/exchange?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: exchange
-    password: wWw.duob1t.com~
+    password: %*WH845td&#&Xyw
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       initial-size: 10

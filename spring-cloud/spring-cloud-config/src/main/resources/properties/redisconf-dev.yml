@@ -3,10 +3,10 @@ spring:
     type: Redis
   redis:
     database: 0
-#    host: 172.20.0.1
+#    host: 172.16.1.6
     host: ${redis-host}
-    port: 7788
-    password:
+    port: 6379
+    password: hd*GH#%263Dsq
     timeout: 10000ms
     jedis:
       pool:
@@ -15,7 +15,6 @@ spring:
         max-active: 8
         max-wait: -1ms
     cache:
-      #自定义属性，redis缓存失效时间
       timeout-seconds: 1800
     expired:
       #失效缓存key监听
