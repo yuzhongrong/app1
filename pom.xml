@@ -33,9 +33,9 @@
         <custom-project-version>latest</custom-project-version>
 
         <!-- 配置信息 -->
-        <eureka-host>sdlzcoin:ZG0bHCl!521@172.16.1.42</eureka-host>
-        <redis-host>172.16.1.42</redis-host>
-        <tx-host>172.16.1.42</tx-host>
+        <eureka-host>sdlzcoin:ZG0bHCl!521@172.16.1.4</eureka-host>
+        <redis-host>172.16.1.6</redis-host>
+        <tx-host>172.16.1.4</tx-host>
     </properties>
 
     <dependencies>
